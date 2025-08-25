@@ -184,6 +184,98 @@
 
                 int a = 5 + 2 * 3;      // 11
                 int b = (5 + 2) * 3;    // 21
+    
+
+    1.3 Control Flow Statements in Java
+
+        -> Definition:
+            Control flow statements decide kis order me program ke statements execute honge.
+            (Matlabl, program ka “flow” control karte hain).
+
+        Java me 3 main categories hote hain:
+
+            1. Decision-Making Statements
+
+                Ye statements condition check karte hain aur uske base pe code execute karte hain.
+
+                if statement
+                    if(condition) {
+                        // code executes if condition true
+                    }
+                
+                if-else statement
+                    if(num % 2 == 0) {
+                        System.out.println("Even");
+                    } else {
+                        System.out.println("Odd");
+                    }
+
+                if-else if ladder
+                    if(marks >= 90) {
+                        System.out.println("Grade A");
+                    } else if(marks >= 75) {
+                        System.out.println("Grade B");
+                    } else {
+                        System.out.println("Grade C");
+                    }
+
+                switch statement
+                    int day = 2;
+                    switch(day) {
+                        case 1: System.out.println("Monday"); break;
+                        case 2: System.out.println("Tuesday"); break;
+                        default: System.out.println("Invalid");
+                    }
+
+            2. Looping Statements (Iteration)
+
+                Looping ka use repeated execution ke liye hota hai.
+
+                for loop
+                    for(int i=1; i<=5; i++) {
+                        System.out.println(i);
+                    }
+
+                while loop
+                    int i = 1;
+                    while(i <= 5) {
+                        System.out.println(i);
+                        i++;
+                    }
+
+                do-while loop (pehle ek baar execute hoga, fir condition check karega)
+                    int i = 1;
+                    do {
+                        System.out.println(i);
+                        i++;
+                    } while(i <= 5);
+
+            3. Jump Statements
+
+                break → loop/switch ko turant terminate karta hai.
+
+                    for(int i=1; i<=5; i++) {
+                        if(i == 3) break;
+                        System.out.println(i);
+                    }
+
+                continue → current iteration skip karke next iteration pe jump.
+
+                    for(int i=1; i<=5; i++) {
+                        if(i == 3) continue;
+                        System.out.println(i);
+                    }
+
+                return → method ko immediately exit kar deta hai.
+
+
+
+
+
+
+
+
+
 
 
 
