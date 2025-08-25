@@ -1,29 +1,24 @@
 1. Overview of Object-Oriented Programming (OOP)
 
-    Definition: OOP is a programming paradigm jo real-world entities (object, class, inheritance, etc.) ko use karke software design karta hai.
+
+    Definition: 
+        OOP is a programming paradigm jo real-world entities (object, class, inheritance, etc.) ko use karke software design karta hai.
 
     Main Concepts:
-
         Class – Blueprint of object (template).
-
         Object – Instance of class (real-world entity).
-
         Encapsulation – Data + methods ko ek unit me wrap karna.
-
         Inheritance – Ek class ke features dusre class me use karna.
-
         Polymorphism – Ek hi method ka multiple forms me use hona.
-
         Abstraction – Sirf essential cheez show karna, implementation hide karna.
 
     -> Java me sab kuch class and object ke around ghoomta hai.
 
+
     1.1 Data Types in Java
 
         1. Overview
-
             Data type batata hai ki variable kis type ka data store karega.
-
             Java ek strongly typed language hai → iska matlab har variable ka type define karna zaroori hai.
 
         2. Types of Data Types
@@ -31,19 +26,12 @@
             (A) Primitive Data Types (8 total)
 
                 byte (1 byte)
-
                 short (2 bytes)
-
                 int (4 bytes)
-
                 long (8 bytes)
-
                 float (4 bytes, decimal)
-
                 double (8 bytes, decimal)
-
                 char (2 bytes, single character)
-
                 boolean (true/false)
 
             (B) Non-Primitive Data Types
@@ -67,3 +55,136 @@
                 double d = 10.5;
                 int i = (int) d;   // forcefully double se int me convert
                 System.out.println(i); // 10 (decimal part lost)
+
+
+    1.2 Operators in Java
+
+        -> Definition:
+            Operators are symbols that perform operations on variables and values.
+            (Operators = chhote chhote tools jinke through hum calculation ya logical operation karte hain).
+
+        1. Types of Operators in Java
+
+            (A) Arithmetic Operators
+
+                + (Addition)
+                - (Subtraction)
+                * (Multiplication)
+                / (Division → quotient)
+                % (Modulus → remainder)
+
+            Example:
+
+                int a = 10, b = 3;
+                System.out.println(a + b); // 13
+                System.out.println(a % b); // 1
+
+            (B) Relational Operators (Comparison)
+
+                == (Equal to)
+                != (Not equal to)
+                > (Greater than)
+                < (Less than)
+                >= (Greater or equal to)
+                <= (Less or equal to)
+
+            Example:
+
+                int x = 5, y = 10;
+                System.out.println(x < y); // true
+                System.out.println(x == y); // false
+
+            (C) Logical Operators
+
+                && (AND)
+                || (OR)
+                ! (NOT)
+
+            Example:
+
+                int age = 20;
+                System.out.println(age > 18 && age < 30); // true
+
+            (D) Unary Operators
+
+                + (Positive sign)
+                - (Negative sign)
+                ++ (Increment by 1)
+                -- (Decrement by 1)
+                ! (NOT)
+
+            Example:
+
+                int n = 5;
+                System.out.println(++n); // 6 (pre-increment)
+                System.out.println(n--); // 6 (then becomes 5)
+
+            (E) Assignment Operators
+
+                = (Assign value)
+                += (Add & assign)
+                -= (Subtract & assign)
+                *= (Multiply & assign)
+                /= (Divide & assign)
+
+            Example:
+
+                int a = 10;
+                a += 5;  // a = a + 5
+                System.out.println(a); // 15
+
+            (F) Bitwise Operators (works on bits)
+
+                & (Bitwise AND)
+                | (Bitwise OR)
+                ^ (XOR)
+                ~ (NOT)
+                << (Left shift)
+                >> (Right shift)
+
+            (G) Conditional / Ternary Operator
+
+                ?: → Short form of if-else
+
+            Example:
+
+                int num = 10;
+                String result = (num % 2 == 0) ? "Even" : "Odd";
+                System.out.println(result); // Even
+
+            (H) Instanceof Operator
+
+                Checks if object belongs to a class.
+
+        2. Operator Precedence
+
+            Precedence → kis operator ko pehle evaluate kiya jayega.
+            Example: * and / ka precedence + and - se higher hota hai.
+
+            Example:
+
+                int res = 10 + 5 * 2;
+                System.out.println(res); // 20 (not 30, because * has higher precedence)
+
+        3. Associativity
+
+            Associativity batata hai ki jab same precedence wale operators aayenge to kaun pehle chalega (left → right or right → left).
+            Most operators have left-to-right associativity.
+
+            Example:
+
+                System.out.println(100 / 10 * 2); // (100/10) * 2 = 20
+
+        4. Expression Evaluation
+
+            Java evaluates expressions based on precedence + associativity.
+            Parentheses () ka use karke precedence ko override kar sakte ho.
+
+            Example:
+
+                int a = 5 + 2 * 3;      // 11
+                int b = (5 + 2) * 3;    // 21
+
+
+
+
