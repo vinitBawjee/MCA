@@ -1,0 +1,69 @@
+1. Overview of Object-Oriented Programming (OOP)
+
+    Definition: OOP is a programming paradigm jo real-world entities (object, class, inheritance, etc.) ko use karke software design karta hai.
+
+    Main Concepts:
+
+        Class – Blueprint of object (template).
+
+        Object – Instance of class (real-world entity).
+
+        Encapsulation – Data + methods ko ek unit me wrap karna.
+
+        Inheritance – Ek class ke features dusre class me use karna.
+
+        Polymorphism – Ek hi method ka multiple forms me use hona.
+
+        Abstraction – Sirf essential cheez show karna, implementation hide karna.
+
+    -> Java me sab kuch class and object ke around ghoomta hai.
+
+    1.1 Data Types in Java
+
+        1. Overview
+
+            Data type batata hai ki variable kis type ka data store karega.
+
+            Java ek strongly typed language hai → iska matlab har variable ka type define karna zaroori hai.
+
+        2. Types of Data Types
+
+            (A) Primitive Data Types (8 total)
+
+                byte (1 byte)
+
+                short (2 bytes)
+
+                int (4 bytes)
+
+                long (8 bytes)
+
+                float (4 bytes, decimal)
+
+                double (8 bytes, decimal)
+
+                char (2 bytes, single character)
+
+                boolean (true/false)
+
+            (B) Non-Primitive Data Types
+
+                String, Arrays, Classes, Objects, Interfaces etc.
+
+        3. Type Conversion
+
+            (A) Implicit Conversion (Type Casting) – Type promotion automatically hota hai
+
+            Example:
+
+                int x = 10;
+                double y = x;   // int automatically double me convert ho gaya
+                System.out.println(y); // 10.0
+
+            (B) Explicit Conversion (Type Casting) – Jab programmer khud conversion kare
+
+            Example:
+
+                double d = 10.5;
+                int i = (int) d;   // forcefully double se int me convert
+                System.out.println(i); // 10 (decimal part lost)
