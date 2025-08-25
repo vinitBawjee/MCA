@@ -269,6 +269,66 @@
                 return → method ko immediately exit kar deta hai.
 
 
+    1.4 Object Oriented Programming: Overview, Use case, Features and Advantages
+
+        -> Overview
+            OOP ek programming paradigm hai jisme real-world entities (like Car, Student, BankAccount) ko objects ke form me represent kiya jata hai.
+            Java ek pure OOP language hai (almost sab kuch class aur object ke around hota hai).
+
+        -> Use Case (Where OOP is used)
+
+            Banking Systems → Account, Customer, Transaction as objects.
+            E-commerce Websites → Product, Cart, User as classes and objects.
+            Games → Player, Enemy, Weapon as objects with properties & methods.
+            Hospital Management System → Patient, Doctor, Appointment as objects.
+            School/College Management → Student, Teacher, Course, Exam.
+
+            OOP ka use large-scale, maintainable aur real-world mapping applications me hota hai.
+
+        -> Features of OOP (Java ke context me)
+
+            Class & Object
+
+                Class = Blueprint/template.
+                Object = Instance of class (real-world entity).
+
+                class Car {
+                    String brand;
+                    int price;
+                }
+                Car c1 = new Car(); // object
+
+            Encapsulation
+
+                Data + methods ko ek single unit me bandhna.
+                Example: private variables with getter/setter.
+
+            Inheritance
+
+                Ek class ke properties/methods dusri class me reuse karna.
+                Example: Car extends Vehicle.
+
+            Polymorphism
+
+                Many forms → ek hi method ka different behavior.
+                (a) Method Overloading (compile-time)
+                (b) Method Overriding (runtime).
+
+            Abstraction
+
+                Hide details, show only essential info.
+                Example: abstract classes, interfaces.
+
+        -> Advantages of OOP
+
+            Code Reusability → Inheritance se existing code reuse hota hai.
+            Data Security → Encapsulation + access modifiers protect data.
+            Flexibility & Maintainability → Polymorphism aur abstraction code ko easy aur flexible banata hai.
+            Real-world Mapping → Real objects ke form me program likhna easy hota hai.
+            Scalability → OOP bade projects ke liye suitable hai.
+
+
+
 
 
 
