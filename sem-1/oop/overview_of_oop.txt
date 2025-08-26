@@ -24,7 +24,6 @@
         2. Types of Data Types
 
             (A) Primitive Data Types (8 total)
-
                 byte (1 byte)
                 short (2 bytes)
                 int (4 bytes)
@@ -35,7 +34,6 @@
                 boolean (true/false)
 
             (B) Non-Primitive Data Types
-
                 String, Arrays, Classes, Objects, Interfaces etc.
 
         3. Type Conversion
@@ -43,7 +41,6 @@
             (A) Implicit Conversion (Type Casting) – Type promotion automatically hota hai
 
             Example:
-
                 int x = 10;
                 double y = x;   // int automatically double me convert ho gaya
                 System.out.println(y); // 10.0
@@ -51,7 +48,6 @@
             (B) Explicit Conversion (Type Casting) – Jab programmer khud conversion kare
 
             Example:
-
                 double d = 10.5;
                 int i = (int) d;   // forcefully double se int me convert
                 System.out.println(i); // 10 (decimal part lost)
@@ -66,7 +62,6 @@
         1. Types of Operators in Java
 
             (A) Arithmetic Operators
-
                 + (Addition)
                 - (Subtraction)
                 * (Multiplication)
@@ -74,13 +69,11 @@
                 % (Modulus → remainder)
 
             Example:
-
                 int a = 10, b = 3;
                 System.out.println(a + b); // 13
                 System.out.println(a % b); // 1
 
             (B) Relational Operators (Comparison)
-
                 == (Equal to)
                 != (Not equal to)
                 > (Greater than)
@@ -89,24 +82,20 @@
                 <= (Less or equal to)
 
             Example:
-
                 int x = 5, y = 10;
                 System.out.println(x < y); // true
                 System.out.println(x == y); // false
 
             (C) Logical Operators
-
                 && (AND)
                 || (OR)
                 ! (NOT)
 
             Example:
-
                 int age = 20;
                 System.out.println(age > 18 && age < 30); // true
 
             (D) Unary Operators
-
                 + (Positive sign)
                 - (Negative sign)
                 ++ (Increment by 1)
@@ -114,13 +103,11 @@
                 ! (NOT)
 
             Example:
-
                 int n = 5;
                 System.out.println(++n); // 6 (pre-increment)
                 System.out.println(n--); // 6 (then becomes 5)
 
             (E) Assignment Operators
-
                 = (Assign value)
                 += (Add & assign)
                 -= (Subtract & assign)
@@ -128,13 +115,11 @@
                 /= (Divide & assign)
 
             Example:
-
                 int a = 10;
                 a += 5;  // a = a + 5
                 System.out.println(a); // 15
 
             (F) Bitwise Operators (works on bits)
-
                 & (Bitwise AND)
                 | (Bitwise OR)
                 ^ (XOR)
@@ -143,17 +128,14 @@
                 >> (Right shift)
 
             (G) Conditional / Ternary Operator
-
                 ?: → Short form of if-else
 
             Example:
-
                 int num = 10;
                 String result = (num % 2 == 0) ? "Even" : "Odd";
                 System.out.println(result); // Even
 
             (H) Instanceof Operator
-
                 Checks if object belongs to a class.
 
         2. Operator Precedence
@@ -162,7 +144,6 @@
             Example: * and / ka precedence + and - se higher hota hai.
 
             Example:
-
                 int res = 10 + 5 * 2;
                 System.out.println(res); // 20 (not 30, because * has higher precedence)
 
@@ -172,7 +153,6 @@
             Most operators have left-to-right associativity.
 
             Example:
-
                 System.out.println(100 / 10 * 2); // (100/10) * 2 = 20
 
         4. Expression Evaluation
@@ -181,7 +161,6 @@
             Parentheses () ka use karke precedence ko override kar sakte ho.
 
             Example:
-
                 int a = 5 + 2 * 3;      // 11
                 int b = (5 + 2) * 3;    // 21
     
@@ -276,7 +255,6 @@
             Java ek pure OOP language hai (almost sab kuch class aur object ke around hota hai).
 
         -> Use Case (Where OOP is used)
-
             Banking Systems → Account, Customer, Transaction as objects.
             E-commerce Websites → Product, Cart, User as classes and objects.
             Games → Player, Enemy, Weapon as objects with properties & methods.
