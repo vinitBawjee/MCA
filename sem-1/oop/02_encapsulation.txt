@@ -1,0 +1,189 @@
+2. Encapsulation
+
+    Encapsulation ka matlab hota hai data aur methods ko ek unit (class) me bundle karna, aur unki access ko restrict karna.
+    Isse security badhti hai aur data hiding possible hota hai.
+
+    Real Life Example:
+        Jaise ek capsule ke andar dawai hoti hai, waise hi class ke andar variables (data) aur methods (functions) hote hain. Bahar se user direct variable ko access nahi kar sakta, sirf methods ke through kar sakta hai.
+
+    
+    2.1 Classes: Defining, Declaration, Creation and Access Modifiers
+
+        -> Class Definition
+            Class ek blueprint hai jisme variables aur methods define hote hain.
+
+            example -
+                class Car {
+                    String color;
+                    int speed;
+
+                    void drive() {
+                        System.out.println("Car is driving...");
+                    }
+                }
+
+        -> Class Declaration & Creation
+            Class declare karne ke baad, object banakar use kar sakte hain.
+
+            example -
+                Car myCar = new Car(); // object creation
+
+        -> Access Modifiers
+            Access modifiers control karte hain ki ek class/variable/method ko kaha tak access kiya ja sakta hai.
+
+            public → sab jagah accessible
+            private → sirf class ke andar
+            protected → same package + subclass
+            default (no modifier) → sirf same package
+
+
+    2.2 Objects: Creation, Declaration, Instantiation
+
+        -> Declaration → Object ka reference banana
+
+            example -
+                Car myCar;
+
+        -> Instantiation → new keyword se memory allocate karna
+
+            example -
+                myCar = new Car();
+
+        -> Creation (together) → Declaration + Instantiation ek line me
+
+            example -
+                Car myCar = new Car();
+
+        -> Example:
+            Car car1 = new Car();
+            car1.color = "Red";
+            car1.speed = 120;
+            car1.drive();
+
+
+    2.3 Constructors: Use Case and Types
+
+        -> Use Case
+            Constructor ek special method hai jo object banate waqt automatically call hota hai. Ye object ke initial values set karne ke liye use hota hai.
+
+        -> Types
+            (1) Default Constructor (compiler provide karta hai agar tu khud nahi banata)
+
+                example -
+                    class Student {
+                        String name;
+                        Student() {
+                            System.out.println("Default Constructor called");
+                        }
+                    }
+
+            (2) Parameterized Constructor
+
+                example -
+                    class Student {
+                        String name;
+                        Student(String n) {
+                            name = n;
+                        }
+                    }
+
+            (3) Copy Constructor (Dusre object ke values copy karne ke liye)
+
+                example -
+                    class Student {
+                        String name;
+                        Student(String n) {
+                            name = n;
+                        }
+                        Student(Student s) {
+                            name = s.name;
+                        }
+                    }
+
+
+    2.4 Methods: Declaration, Invocation, Types: Getter and Setter
+
+        -> Method Declaration
+
+            example -
+                returnType methodName(parameters) {
+                    // body
+                }
+
+        -> Invocation (calling)
+
+            example -
+                objectName.methodName();
+
+        -> Example:
+            class Calculator {
+                int add(int a, int b) {
+                    return a + b;
+                }
+            }
+
+            Calculator c = new Calculator();
+            System.out.println(c.add(5, 10));  // method call
+
+        -> Getter and Setter Methods
+
+            Getter → variable ka value read karne ke liye
+            Setter → variable ka value set karne ke liye
+
+            example -
+                class Person {
+                    private String name;
+
+                    // Setter
+                    void setName(String n) {
+                        name = n;
+                    }
+
+                    // Getter
+                    String getName() {
+                        return name;
+                    }
+                }
+
+                Person p = new Person();
+                p.setName("Vinit");
+                System.out.println(p.getName());
+
+
+    2.5 Static and Final Keywords
+
+        -> Static
+            Static variables/methods class ke saath belong karte hain, object ke saath nahi.
+            Matlab har object ke liye ek hi copy hoti hai.
+
+            example -
+                class Counter {
+                    static int count = 0;
+
+                    Counter() {
+                        count++;
+                        System.out.println(count);
+                    }
+                }
+
+                new Counter(); // 1
+                new Counter(); // 2
+                new Counter(); // 3
+
+        -> Final
+            final variable → value change nahi kar sakte (constant ban jata hai).
+            final method → override nahi kar sakte.
+            final class → inherit nahi kar sakte.
+
+            example -
+                final int MAX = 100; // cannot change
+
+                final class Test {
+                    final void display() {
+                        System.out.println("Hello");
+                    }
+                }
+
+
+
+
