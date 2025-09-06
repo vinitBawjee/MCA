@@ -40,17 +40,17 @@
 
             (A) Implicit Conversion (Type Casting) – Type promotion automatically hota hai
 
-            Example:
-                int x = 10;
-                double y = x;   // int automatically double me convert ho gaya
-                System.out.println(y); // 10.0
+                Example:
+                    int x = 10;
+                    double y = x;   // int automatically double me convert ho gaya
+                    System.out.println(y); // 10.0
 
             (B) Explicit Conversion (Type Casting) – Jab programmer khud conversion kare
 
-            Example:
-                double d = 10.5;
-                int i = (int) d;   // forcefully double se int me convert
-                System.out.println(i); // 10 (decimal part lost)
+                Example:
+                    double d = 10.5;
+                    int i = (int) d;   // forcefully double se int me convert
+                    System.out.println(i); // 10 (decimal part lost)
 
 
     1.2 Operators in Java

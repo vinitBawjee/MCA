@@ -154,7 +154,7 @@
 
         -> Static
             Static variables/methods class ke saath belong karte hain, object ke saath nahi.
-            Matlab har object ke liye ek hi copy hoti hai.
+            Matlab ek hi copy banti hai jo sabhi objects ke liye common hoti hai.
 
             example -
                 class Counter {
