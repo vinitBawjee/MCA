@@ -1,1 +1,164 @@
 1. Activities and Services in Android
+
+
+    1.1 Overview of Mobile Technologies, Mobile Platform Features, Architecture, Versions, and Development Tools
+
+        -> Mobile Technologies
+
+            Android, iOS, Windows Phone (ab obsolete).
+            Android → Open Source (Linux based).
+            iOS → Apple ka closed-source.
+
+        -> Features of Mobile Platform (Android Example)
+
+            Touch screen support
+            Multi-tasking
+            Connectivity (Wi-Fi, Bluetooth, NFC)
+            App store (Google Play)
+            Sensors (GPS, Gyroscope, etc.)
+
+        -> Android Architecture (4 Layers)
+
+            Linux Kernel → Hardware drivers (camera, display, memory).
+            Libraries + Android Runtime (ART) → SQLite, Media, OpenGL, Java libraries.
+            Application Framework → Activity Manager, Window Manager, Notification Manager.
+            Applications → WhatsApp, YouTube, your own apps.
+
+        -> Android Versions → Cupcake → Donut → … → Oreo → Pie → Android 14 (Upside Down Cake).
+
+        -> Development Tools
+
+            Android Studio (official IDE)
+            SDK (Software Development Kit)
+            AVD (Android Virtual Device - emulator)
+
+
+    1.2 Activity
+
+        -> Definition: Activity ek screen hai app ke andar. Example: WhatsApp ka chat screen ek Activity hai.
+
+        -> Life Cycle (Important for Exam + Interview)
+
+            onCreate() → Activity start hone par call hota hai.
+            onStart() → Jab Activity visible hoti hai.
+            onResume() → Jab user interact kar raha ho.
+            onPause() → Jab dusra Activity open ho raha ho.
+            onStop() → Jab Activity background me ho.
+            onDestroy() → Jab Activity close ho jaye.
+
+            Example -
+
+                class MainActivity : AppCompatActivity() {
+                    override fun onCreate(savedInstanceState: Bundle?) {
+                        super.onCreate(savedInstanceState)
+                        setContentView(R.layout.activity_main)
+                    }
+                }
+
+        -> Intent → Used for communication.
+
+            Explicit Intent → App ke andar screen change karna.
+            Implicit Intent → Built-in apps open karna (Camera, Browser).
+        
+            Example -
+
+                // Explicit Intent
+                val intent = Intent(this, SecondActivity::class.java)
+                startActivity(intent)
+
+                // Implicit Intent
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))
+                startActivity(intent)
+
+
+    1.3 Fragment
+
+        -> Introduction: Fragment ek reusable UI component hai jo Activity ke andar use hota hai.
+        -> Need: Tablet aur phone dono me responsive UI banane ke liye.
+        -> Life Cycle: onAttach() → onCreateView() → onStart() → onResume() … onDestroyView().
+
+        Example - 
+
+            class MyFragment : Fragment(R.layout.fragment_layout) {
+                override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+                    super.onViewCreated(view, savedInstanceState)
+                }
+            }
+
+        -> Inter-Fragment Communication: Fragment → Activity → Dusre Fragment. (Data Activity ke through pass hota hai).
+
+
+    1.4 User Interface Containers and Screen Elements
+
+        -> UI Containers:
+
+            LinearLayout → elements ek ke baad ek.
+            RelativeLayout → relative positioning.
+            ConstraintLayout → flexible & modern.
+            FrameLayout → ek ke upar ek element.
+
+        -> Screen Elements (Widgets):
+
+            Button, TextView, EditText, ImageView, RecyclerView.
+
+
+        Example - 
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView android:text="Hello Android"/>
+                <Button android:text="Click Me"/>
+            </LinearLayout>
+
+
+    1.5 Dialogs
+
+        -> Introduction: Small pop-up window jo user ke sath interact karta hai.
+
+        -> Need: User ko alert dena, confirmation lena.
+
+        -> Types:
+
+            AlertDialog (OK/Cancel)
+            DatePickerDialog
+            TimePickerDialog
+            Custom Dialog
+
+        Example - 
+
+            AlertDialog.Builder(this)
+            .setTitle("Exit?")
+            .setMessage("Do you want to exit?")
+            .setPositiveButton("Yes") { _, _ -> finish() }
+            .setNegativeButton("No", null)
+            .show()
+
+
+    1.6 Service
+
+        -> Overview: Service background me run hota hai bina UI ke. Example: Music Player, Download Manager.
+
+        -> Life Cycle:
+
+            onCreate() → Service start hota hai.
+            onStartCommand() → Background task execute hota hai.
+            onDestroy() → Service stop hota hai.
+
+        -> Types:
+
+            Started Service → Long running background task (e.g., downloading file).
+            Bound Service → Components bind karke interact karte hain (e.g., multiple apps ek service use karte hain).
+
+        Example -
+
+            class MyService : Service() {
+                override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+                    // Background task
+                    return START_STICKY
+                }
+
+                override fun onBind(intent: Intent?): IBinder? = null
+            }
