@@ -243,28 +243,164 @@
 
             Example:
                 const pi = 3.14;
-                pi = 3.1416;   // ❌ Error: Cannot reassign
+                pi = 3.1416;   // Error: Cannot reassign
 
             Exam point: Jab value fix ho (like PI, API_KEY), tab const use hota hai.
 
         -> var vs let vs const (Short Table)
 
+            | Keyword | Scope    | Redeclare | Reassign |
+            | ------- | -------- | --------- | -------- |
+            | var     | Function | Yes       | Yes      |
+            | let     | Block    | No        | Yes      |
+            | const   | Block    | No        | No       |
+
+        -> Arrow Functions
+
+            Arrow function ek naya syntax hai functions likhne ka.
+            Ye short aur clean hote hain.
+            this keyword ko bhi better handle karte hain.
+
+            Normal Function:
+
+                function add(a, b) {
+                    return a + b;
+                }
+
+            Arrow Function:
+
+                const add = (a, b) => a + b;
+
+            Example in use:
+
+                const square = (x) => x * x;
+                console.log(square(5)); // Output: 25
 
 
+        -> Benefits of Arrow Functions
 
-        
+            Short aur easy syntax.
+            Callback functions me helpful (e.g., map, filter, reduce).
+            this keyword ka issue solve hota hai.
+
+            Example in Array:
+
+                const numbers = [1, 2, 3, 4];
+                const doubled = numbers.map(n => n * 2);
+                console.log(doubled); // [2, 4, 6, 8]
+
+        -> Conclusion
+
+            let = block-scoped, reassign allowed.
+            const = block-scoped, reassign not allowed.
+            arrow functions = concise syntax for functions, better readability, aur modern JS ka major feature.
+
+            Exam Answer Line:
+
+                ES6 ke let, const aur arrow functions modern JavaScript ko secure, maintainable aur readable banate hain. Yeh features aaj ke time me har web application me use hote hain.
 
 
+    1.5.ES6 Classes, Promises, and Modules
 
+        -> ES6 Classes
 
+            Introduction
+                ES6 me class keyword introduce hua, jo object-oriented programming ko easy banata hai.
+                Class ek blueprint hoti hai jisse objects banaye jaate hain.
 
+            Syntax:
+                class Student {
+                    constructor(name, age) {
+                        this.name = name;
+                        this.age = age;
+                    }
 
+                    display() {
+                        return `${this.name} is ${this.age} years old.`;
+                    }
+                }
 
+                const s1 = new Student("Vinit", 21);
+                console.log(s1.display()); 
+                // Output: Vinit is 21 years old.
 
+            Key Points for Exam:
+                Constructor function: object initialize karne ke liye.
+                Methods: class ke andar functions.
+                Inheritance: extends keyword se ek class dusri class ki properties le sakti hai.
 
+            Inheritance Example:
+                class Animal {
+                    speak() { console.log("Animal sound"); }
+                }
+                class Dog extends Animal {
+                    speak() { console.log("Bark"); }
+                }
+                new Dog().speak(); // Output: Bark
 
+        -> ES6 Promises
 
+            Introduction
+                Promise ek object hai jo asynchronous operation ka result future me represent karta hai.
 
+            States of Promise:
+                Pending (initial state)
+                Fulfilled (operation success)
+                Rejected (operation failed)
 
+            Syntax:
+                let myPromise = new Promise((resolve, reject) => {
+                let success = true;
+                if (success) {
+                    resolve("Operation Successful!");
+                } else {
+                    reject("Error occurred!");
+                }
+                });
 
+                myPromise
+                .then(result => console.log(result))   // Fulfilled case
+                .catch(error => console.log(error));   // Rejected case
 
+            Exam Point:
+                .then() → success handle karne ke liye
+                .catch() → error handle karne ke liye
+                .finally() → hamesha chalega (success/error ke baad).
+
+            Real-life Example:
+                Server se data fetch karna. Agar data mil gaya → resolve, warna → reject.
+
+        -> ES6 Modules
+
+            Introduction
+                ES6 Modules allow karte hain ki hum apna code different files me divide karein.
+                Ye code ko organized, reusable aur maintainable banata hai.
+
+            Export karna (file: math.js):
+                export const add = (a, b) => a + b;
+                export const sub = (a, b) => a - b;
+
+            Import karna (file: app.js):
+                import { add, sub } from './math.js';
+                console.log(add(5, 3)); // 8
+                console.log(sub(5, 3)); // 2
+
+            Default Export Example:
+                // math.js
+                export default function multiply(a, b) { return a * b; }
+
+                // app.js
+                import multiply from './math.js';
+                console.log(multiply(4, 2)); // 8
+
+            Exam Point:
+                export → function, variable, class ko share karne ke liye.
+                import → dusre file se code use karne ke liye.
+                Modules = code reusability + clean structure.
+
+        -> Conclusion
+            Classes: OOP support in JavaScript with constructors, methods, inheritance.
+            Promises: Handle async tasks (like API calls) efficiently.
+            Modules: Code ko organize aur reuse karne ka best way.
+
+            Together, these ES6 features make JavaScript modern, maintainable, and developer-friendly.
