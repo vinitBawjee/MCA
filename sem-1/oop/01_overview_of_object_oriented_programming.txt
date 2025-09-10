@@ -1,0 +1,352 @@
+1. Overview of Object Oriented Programming
+
+
+    1.1 Data Types: Overview, Types, Type Conversion
+
+        -> Data Types – Overview
+            In programming, data types define the kind of data that can be stored and manipulated in a program.
+            They tell the compiler or interpreter how much memory to allocate and which operations can be performed on that data.
+
+            Key Points:
+                - Every variable must have a data type.
+                - Data types decide the range of values (e.g., int stores numbers, char stores characters).
+                - Helps the program to be memory efficient and error-free.
+
+            Example (Real Life Analogy):
+                Think of data types as containers:
+                - A water bottle can only hold water (like int can only hold integers).
+                - A lunch box can hold food (like string can hold characters).
+                - You can’t put a pizza into a pencil box (wrong data type error).
+
+        -> Types of Data Types
+
+            (A) Primitive / Fundamental Data Types
+                These are the basic building blocks provided by most programming languages.
+
+                | Data Type | Size (in Java/C) | Example      | Usage                           |
+                | --------- | ---------------- | ------------ | ------------------------------- |
+                | `int`     | 4 bytes          | 10, -25      | Counting, IDs                   |
+                | `float`   | 4 bytes          | 3.14, -9.8   | Decimal values (less precision) |
+                | `double`  | 8 bytes          | 45.67891     | High precision decimals         |
+                | `char`    | 2 bytes (Java)   | 'A', 'z'     | Storing a character             |
+                | `boolean` | 1 bit            | true / false | Conditions (yes/no)             |
+                | `byte`    | 1 byte           | 120          | Storing small numbers           |
+                | `short`   | 2 bytes          | 1500         | Medium range numbers            |
+                | `long`    | 8 bytes          | 1234567890   | Very large numbers              |
+
+                Example (Java):
+                    int age = 21;
+                    float price = 99.50f;
+                    char grade = 'A';
+                    boolean isPass = true;
+
+            (B) Derived Data Types
+                Built from primitive types.
+
+                Examples:
+                    - Arrays → store multiple values of same type.
+                    - Strings → sequence of characters.
+                    - Pointers (in C) → store address of variables.
+
+                Example:
+                    int marks[] = {85, 90, 75};   // Array
+                    String name = "Vinit";        // String
+
+            (C) User-defined Data Types
+                Defined by the programmer.
+
+                Examples: 
+                    class, structure, enum, union.
+
+                Example (Java Class):
+                    class Student {
+                        int id;
+                        String name;
+                    }
+
+        -> Type Conversion
+            Type conversion means changing one data type into another.
+            It is necessary when you want to perform operations between different data types.
+
+            (A) Implicit Type Conversion (Type Casting / Type Promotion)
+                Also called Type Promotion or Type Casting by Compiler.
+                Happens automatically when a smaller data type is converted into a larger data type.
+
+                Rules:
+                    - No data loss.
+                    - Done by compiler.
+
+                    - Example: int → float → double.
+
+                Example (Java):
+                    int a = 10;
+                    double b = a;   // int is automatically converted to double
+                    System.out.println(b);  // Output: 10.0
+                
+                Real Life Analogy:
+                    Think of putting a small cup of tea into a big mug. It will easily fit without spilling (safe conversion).
+
+            (B) Explicit Type Conversion (Type Casting by User)
+                Also called Type Casting.
+                When programmer manually converts one type into another using cast operator (type).
+
+                Syntax:
+                    datatype variable = (datatype) value;
+
+                Example (Java):
+                    double price = 99.99;
+                    int finalPrice = (int) price;  // Decimal part is removed
+                    System.out.println(finalPrice);  // Output: 99
+
+                Real Life Analogy:
+                    Like pouring a big jug of water into a small glass – some part will overflow (loss of data).
+
+                Example Combining Both
+                    public class TypeCastingExample {
+                        public static void main(String[] args) {
+                            int x = 5;
+                            double y = x;     // Implicit Conversion
+                            System.out.println("Implicit: " + y);
+
+                            double p = 9.78;
+                            int q = (int) p;  // Explicit Conversion
+                            System.out.println("Explicit: " + q);
+                        }
+                    }
+
+                Output:
+                    Implicit: 5.0
+                    Explicit: 9
+
+        -> Summary Table
+
+            | Conversion Type | Who Does It? | Data Loss | Example        |
+            | --------------- | ------------ | --------- | -------------- |
+            | Implicit        | Compiler     | No        | `int → double` |
+            | Explicit        | Programmer   | Possible  | `double → int` |
+
+        -> Real-Life Example (Banking System)
+
+            Imagine a banking software:
+                - int for storing account number.
+                - double for storing balance.
+                - String for customer name.
+                - boolean for loan status (approved/not approved).
+
+            Code Example:
+                public class Bank {
+                    public static void main(String[] args) {
+                        int accountNo = 12345;
+                        String name = "Vinit Bawjee";
+                        double balance = 10500.75;
+                        boolean hasLoan = false;
+
+                        // Implicit conversion
+                        double newBalance = accountNo; // int → double
+
+                        // Explicit conversion
+                        int approxBalance = (int) balance; // double → int
+
+                        System.out.println("Account: " + accountNo);
+                        System.out.println("Name: " + name);
+                        System.out.println("Balance: " + balance);
+                        System.out.println("Approx Balance (int): " + approxBalance);
+                        System.out.println("Loan Approved: " + hasLoan);
+                    }
+                }
+
+
+    1.2 Operators: Types, Precedence, and Associativity, Expression Evaluation
+
+        -> Operators – Overview
+            Operators are symbols that tell the compiler to perform specific operations on data.
+            They act as tools to manipulate variables and values.
+
+            Real-Life Analogy:
+
+                Think of operators as tools in a toolbox:
+                    - + is like a calculator’s addition button.
+                    - == is like asking “Are these two things equal?”.
+                    - && is like saying “Do both conditions pass?”.
+
+        -> Types of Operators
+
+            (A) Arithmetic Operators
+                Used for mathematical calculations.
+
+                | Operator | Meaning             | Example  | Result |
+                | -------- | ------------------- | -------- | ------ |
+                | `+`      | Addition            | `5 + 3`  | 8      |
+                | `-`      | Subtraction         | `10 - 4` | 6      |
+                | `*`      | Multiplication      | `6 * 2`  | 12     |
+                | `/`      | Division (quotient) | `9 / 2`  | 4      |
+                | `%`      | Modulus (remainder) | `9 % 2`  | 1      |
+
+                Example (Java):
+                    int a = 9, b = 2;
+                    System.out.println(a / b);  // 4
+                    System.out.println(a % b);  // 1
+
+            (B) Relational Operators
+                Used to compare values. Result is always true or false.
+
+                | Operator | Meaning          | Example  | Result |
+                | -------- | ---------------- | -------- | ------ |
+                | `==`     | Equal to         | `5 == 5` | true   |
+                | `!=`     | Not equal to     | `5 != 3` | true   |
+                | `>`      | Greater than     | `10 > 2` | true   |
+                | `<`      | Less than        | `5 < 2`  | false  |
+                | `>=`     | Greater or equal | `5 >= 5` | true   |
+                | `<=`     | Less or equal    | `3 <= 5` | true   |
+
+            (C) Logical Operators
+                Used with boolean values.
+
+                | Operator | Meaning     | Example             | Result     |          |   |           |      |
+                | -------- | ----------- | ------------------- | ---------- | -------- | - | --------- | ---- |
+                | `&&`     | Logical AND | `(5 > 2 && 10 > 5)` | true       |          |   |           |      |
+                | \`       |             | \`                  | Logical OR | \`(5 > 2 |   | 2 > 10)\` | true |
+                | `!`      | Logical NOT | `!(5 > 2)`          | false      |          |   |           |      |
+
+                Real Life Example:
+                    - AND (&&): “I will go out if it is sunny AND I have free time.”
+                    - OR (||): “I will watch TV if it is raining OR I am bored.”
+
+            (D) Assignment Operators
+                Used to assign values to variables.
+
+                | Operator | Meaning           | Example  | Equivalent To |
+                | -------- | ----------------- | -------- | ------------- |
+                | `=`      | Assign            | `x = 5`  | x = 5         |
+                | `+=`     | Add & assign      | `x += 3` | x = x + 3     |
+                | `-=`     | Subtract & assign | `x -= 2` | x = x - 2     |
+                | `*=`     | Multiply & assign | `x *= 4` | x = x \* 4    |
+                | `/=`     | Divide & assign   | `x /= 2` | x = x / 2     |
+                | `%=`     | Modulus & assign  | `x %= 2` | x = x % 2     |
+
+            (E) Unary Operators
+                Work on a single operand.
+
+                | Operator | Meaning                | Example |
+                | -------- | ---------------------- | ------- |
+                | `++`     | Increment by 1         | `x++`   |
+                | `--`     | Decrement by 1         | `x--`   |
+                | `+`      | Unary plus (no change) | `+x`    |
+                | `-`      | Unary minus (negation) | `-x`    |
+
+                Pre-increment vs Post-increment:
+                    int x = 5;
+                    System.out.println(++x); // 6 (increment first, then use)
+                    System.out.println(x++); // 6 (use first, then increment)
+
+            (F) Conditional (Ternary) Operator
+                Shorthand for if-else.
+
+                Syntax:
+                    condition ? expression1 : expression2;
+
+                Example:
+                    int age = 18;
+                    String result = (age >= 18) ? "Adult" : "Minor";
+                    System.out.println(result);  // Adult
+
+            (G) Bitwise Operators
+                Work at the bit-level (0s and 1s).
+
+                | Operator | Meaning     | Example       |     |         |
+                | -------- | ----------- | ------------- | --- | ------- |
+                | `&`      | Bitwise AND | `5 & 3 = 1`   |     |         |
+                | \`       | \`          | Bitwise OR    | \`5 | 3 = 7\` |
+                | `^`      | Bitwise XOR | `5 ^ 3 = 6`   |     |         |
+                | `~`      | Bitwise NOT | `~5 = -6`     |     |         |
+                | `<<`     | Left Shift  | `5 << 1 = 10` |     |         |
+                | `>>`     | Right Shift | `5 >> 1 = 2`  |     |         |
+
+            (H) Miscellaneous Operators
+                - instanceof → checks object type.
+                - new → creates objects.
+                - [] → array access.
+
+        -> Operator Precedence and Associativity
+            When multiple operators appear in a single expression, precedence and associativity decide the order of execution.
+
+            - Precedence: Priority of operator.
+            - Associativity: Direction of execution (left → right OR right → left).
+
+            Operator Precedence Table (Java – simplified)
+            | Precedence (High → Low) | Operators            | Associativity |    |               |
+            | ----------------------- | -------------------- | ------------- | -- | ------------- |
+            | 1                       | `++`, `--`, `!`, `~` | Right to Left |    |               |
+            | 2                       | `*`, `/`, `%`        | Left to Right |    |               |
+            | 3                       | `+`, `-`             | Left to Right |    |               |
+            | 4                       | `<`, `>`, `<=`, `>=` | Left to Right |    |               |
+            | 5                       | `==`, `!=`           | Left to Right |    |               |
+            | 6                       | `&&`                 | Left to Right |    |               |
+            | 7                       | \`                   |               | \` | Left to Right |
+            | 8                       | `?:` (ternary)       | Right to Left |    |               |
+            | 9                       | `=`, `+=`, `-=`      | Right to Left |    |               |
+
+        -> Expression Evaluation
+            Steps for Evaluating Expressions:
+                - Check operator precedence.
+                - If same precedence, check associativity.
+                - Evaluate step by step.
+
+            Example 1
+                int result = 10 + 5 * 2;
+                System.out.println(result);
+
+                Evaluation:
+                    - * has higher precedence → 5 * 2 = 10
+                    - 10 + 10 = 20
+                Output = 20
+
+            Example 2 (With Increment)
+                int a = 5, b = 2;
+                int result = a++ * ++b;
+                System.out.println(result);
+
+                Step-by-step:
+                    - a++ → use 5, then a becomes 6.
+                    - ++b → increment first, so b = 3.
+                    - 5 * 3 = 15.
+                Output = 15
+
+            Example 3 (Bank Discount System – Real Life)
+                double bill = 1200;
+                double discount = (bill > 1000) ? 0.10 : 0.05;
+                double finalAmount = bill - (bill * discount);
+                System.out.println("Payable: " + finalAmount);
+
+                Output:
+                    Payable: 1080.0
+
+        -> Summary
+            - Operators: Symbols to perform operations.
+            - Types: Arithmetic, Relational, Logical, Assignment, Unary, Ternary, Bitwise.
+            - Precedence: Defines which operator is executed first.
+            - Associativity: Defines execution direction (L→R / R→L).
+            - Expression Evaluation: Follows precedence + associativity rules.
+
+
+    1.3 Control Flow Statements
+
+
+    1.4 Object Oriented Programming: Ovrview, Use case, Features and Advantages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
