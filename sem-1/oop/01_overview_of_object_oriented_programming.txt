@@ -331,8 +331,394 @@
 
     1.3 Control Flow Statements
 
+        -> Introduction
+            Control Flow Statements are used to control the order of execution of statements in a program.
+            They allow us to make decisions, repeat tasks, or jump to another part of the program.
+
+            Without control flow, programs would execute line by line from top to bottom only.
+            With control flow, we can:
+                - Choose (Decision making)
+                - Repeat (Looping)
+                - Jump (Transfer control)
+
+        -> Types of Control Flow Statements
+
+            There are mainly three categories:
+                - Decision-Making Statements (Branching)
+                - Looping Statements (Iteration)
+                - Jump Statements (Transfer control)
+
+            (A) Decision-Making Statements
+
+                1. if Statement
+                    Executes a block of code if a condition is true.
+
+                    Syntax:
+                        if (condition) {
+                        // statements
+                        }
+
+                    Example:
+                        int age = 18;
+                        if (age >= 18) {
+                            System.out.println("Eligible to vote");
+                        }
+
+                2. if-else Statement
+                    Executes one block if condition is true, otherwise another block.
+
+                    Syntax:
+                        if (condition) {
+                        // if block
+                        } else {
+                        // else block
+                        }
+
+                    Example:
+                        int marks = 40;
+                        if (marks >= 35) {
+                            System.out.println("Pass");
+                        } else {
+                            System.out.println("Fail");
+                        }
+
+                3. Nested if Statement
+                    if inside another if.
+
+                    int marks = 85;
+                    if (marks >= 35) {
+                        if (marks >= 75) {
+                            System.out.println("Distinction");
+                        } else {
+                            System.out.println("Pass");
+                        }
+                    } else {
+                        System.out.println("Fail");
+                    }
+
+                4. if-else if Ladder
+                    Used when multiple conditions are checked.
+
+                    Example:
+                        int marks = 65;
+                        if (marks >= 75) {
+                            System.out.println("Distinction");
+                        } else if (marks >= 60) {
+                            System.out.println("First Class");
+                        } else if (marks >= 35) {
+                            System.out.println("Pass");
+                        } else {
+                            System.out.println("Fail");
+                        }
+
+                5. switch Statement
+                    Used when you want to compare one variable against multiple values.
+
+                    Syntax:
+                        switch (variable) {
+                        case value1: statements; break;
+                        case value2: statements; break;
+                        ...
+                        default: statements;
+                        }
+
+                    Example:
+                        int day = 3;
+                        switch (day) {
+                            case 1: System.out.println("Monday"); break;
+                            case 2: System.out.println("Tuesday"); break;
+                            case 3: System.out.println("Wednesday"); break;
+                            default: System.out.println("Invalid Day");
+                        }
+
+            (B) Looping Statements (Iteration)
+                Used when we need to repeat a block of code multiple times.
+
+                1. for Loop
+                    Syntax:
+                        for(initialization; condition; increment/decrement) {
+                        // statements
+                        }
+
+                    Example:
+                        for (int i = 1; i <= 5; i++) {
+                            System.out.println("Hello " + i);
+                        }
+
+                2. while Loop
+                    Used when the number of iterations is not fixed.
+
+                    Syntax:
+                        while (condition) {
+                        // statements
+                        }
+                    
+                    Example:
+                        int i = 1;
+                        while (i <= 5) {
+                            System.out.println("Hello " + i);
+                            i++;
+                        }
+
+                3. do-while Loop
+                    Executes at least once (condition checked later).
+
+                    Syntax:
+                        do {
+                        // statements
+                        } while(condition);
+
+                    Example:
+                        int i = 1;
+                        do {
+                            System.out.println("Hello " + i);
+                            i++;
+                        } while (i <= 5);
+
+                4. for-each Loop (Enhanced for)
+                    Used to iterate arrays/collections.
+
+                    Example:
+                        int arr[] = {10, 20, 30};
+                        for (int num : arr) {
+                            System.out.println(num);
+                        }
+
+            (C) Jump Statements
+                Used to transfer control from one part of the program to another.
+
+                1. break
+                    Terminates loop/switch immediately.
+
+                    Example:
+                        for (int i = 1; i <= 5; i++) {
+                            if (i == 3) break;
+                            System.out.println(i);
+                        }
+                    Output: 1 2
+
+                2. continue
+                    Skips the current iteration and moves to the next one.
+
+                    Example:
+                        for (int i = 1; i <= 5; i++) {
+                            if (i == 3) continue;
+                            System.out.println(i);
+                        }
+                    Output: 1 2 4 5
+
+                3. return
+                    Exits from a method and optionally returns a value.
+
+                    Example:
+                        public int square(int n) {
+                            return n * n;
+                        }
+
+        -> Real-Life Example (Bank ATM System)
+            int choice = 2;
+            switch(choice) {
+                case 1: System.out.println("Check Balance"); break;
+                case 2: System.out.println("Withdraw Money"); break;
+                case 3: System.out.println("Deposit Money"); break;
+                default: System.out.println("Invalid Choice");
+            }
+            Works like an ATM menu – control flows to the selected option.
+
+        -> Diagram for Exam
+            Types of Control Flow Statements
+
+                            Control Flow
+                            |
+            ---------------------------------
+            |               |               |
+            Decision        Looping         Jump
+            (if, else,      (for, while,    (break,
+            switch)         do-while)       continue, return)
+
+        -> Summary
+            - Decision-making → if, if-else, switch.
+            - Looping → for, while, do-while, for-each.
+            - Jump → break, continue, return.
+            - They make programs flexible, efficient, and intelligent.
+
 
     1.4 Object Oriented Programming: Ovrview, Use case, Features and Advantages
+
+
+        -> Overview
+
+            Definition:
+                Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects that contain data (attributes) and methods (functions) to operate on that data.
+            
+            In OOP, objects represent real-world entities like student, car, bank account.
+            It is different from Procedure-Oriented Programming (POP), where the focus is on functions instead of objects.
+
+            Real Life Analogy:
+
+                Think of a Car as an object:
+                    - Attributes (Data) → color, brand, speed.
+                    -Methods (Functions) → start(), stop(), accelerate().
+
+        -> Use Case of OOP
+            OOP is widely used in real-life applications where modularity, security, and reusability are important.
+
+            Examples:
+                Banking System
+                    Object: Account
+                    Attributes: accountNo, balance
+                    Methods: deposit(), withdraw(), checkBalance()
+
+                E-commerce Application (like Amazon/Flipkart)
+                    Objects: Product, Customer, Order
+                    Each has attributes (price, name, ID) and methods (buy(), addToCart()).
+
+                Hospital Management System
+                    Objects: Doctor, Patient, Appointment.
+
+        -> Features of OOP
+            OOP provides four main pillars (core features) + some additional features.
+
+            (A) Core Features
+                1. Encapsulation
+
+                    Wrapping of data and methods into a single unit (class).
+                    Protects data from outside interference.
+
+                    Example (Java):
+                        class Student {
+                            private int marks;  // data hiding
+
+                            public void setMarks(int m) {   // setter
+                                marks = m;
+                            }
+
+                            public int getMarks() {         // getter
+                                return marks;
+                            }
+                        }
+
+                    Marks are accessed only through methods → security.
+
+                2. Abstraction
+
+                    Showing only essential features and hiding internal details.
+                    Example: When you drive a car, you use steering and brakes, but you don’t know the engine’s internal working.
+
+                    Example (Java):
+                        abstract class Vehicle {
+                            abstract void start();
+                        }
+
+                        class Car extends Vehicle {
+                            void start() {
+                                System.out.println("Car starts with a key");
+                            }
+                        }
+
+                3. Inheritance
+
+                    One class acquires properties & behavior of another class.
+                    Promotes reusability.
+
+                    Example (Java):
+                        class Animal {
+                            void eat() { System.out.println("Eating"); }
+                        }
+
+                        class Dog extends Animal {
+                            void bark() { System.out.println("Barking"); }
+                        }
+
+                    Dog inherits eat() from Animal.
+
+                4. Polymorphism
+
+                    Means one name, many forms.
+                    Two types:
+                        - Compile-time (Method Overloading)
+                        - Runtime (Method Overriding)
+
+                    Example (Overloading):
+                        class MathCalc {
+                            int add(int a, int b) { return a + b; }
+                            double add(double a, double b) { return a + b; }
+                        }
+
+                    Example (Overriding):
+                        class Animal {
+                            void sound() { System.out.println("Animal sound"); }
+                        }
+
+                        class Dog extends Animal {
+                            void sound() { System.out.println("Bark"); }
+                        }
+
+            (B) Additional Features
+                Class and Object → Base concept of OOP.
+                Data Hiding → Achieved using private access modifier.
+                Code Reusability → Write once, use multiple times.
+                Modularity → Code is divided into smaller parts (classes).
+
+        -> Advantages of OOP
+
+            Why OOP is better than traditional approaches:
+                Reusability – Code can be reused using inheritance.
+                Modularity – Complex problems broken into objects.
+                Data Security – Encapsulation hides sensitive data.
+                Flexibility – Polymorphism makes it flexible.
+                Maintainability – Easy to debug and update.
+                Scalability – Best for large-scale applications.
+                Real-world mapping – Objects in code resemble real-world entities.
+
+        -> Diagram (For Exam)
+            OOP Pillars
+
+                    Object Oriented Programming
+                                |
+                -------------------------------------------
+                |      |        |          |              |
+            Encapsulation  Abstraction  Inheritance  Polymorphism
+
+        -> Real-Life Example (Bank Account System)
+
+            class Account {
+                private double balance; // Encapsulation
+
+                public void deposit(double amount) {
+                    balance += amount;
+                }
+
+                public void withdraw(double amount) {
+                    if(balance >= amount)
+                        balance -= amount;
+                }
+
+                public double getBalance() {
+                    return balance;
+                }
+            }
+
+            class SavingsAccount extends Account {  // Inheritance
+                double interestRate = 0.05;
+
+                public void addInterest() {
+                    deposit(getBalance() * interestRate); // Polymorphism (method reuse)
+                }
+            }
+
+            Here:
+                Encapsulation: Balance is private.
+                Inheritance: SavingsAccount inherits from Account.
+                Polymorphism: deposit() used in multiple ways.
+                Abstraction: User doesn’t know internal working, just uses deposit/withdraw methods.
+
+        -> Summary
+
+            - Overview: OOP → object-based programming paradigm.
+            - Use Cases: Banking, E-commerce, Hospital, etc.
+            - Features: Encapsulation, Abstraction, Inheritance, Polymorphism.
+            - Advantages: Security, Reusability, Modularity, Scalability.
 
 
 
