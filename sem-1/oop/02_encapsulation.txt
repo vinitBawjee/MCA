@@ -1,0 +1,88 @@
+2. Encapsulation
+
+
+    2.1 Classes: Definition, Declaration, Creation and Access Modifiers
+
+        -> Class – Definition
+            A class is a blueprint (template) for creating objects.
+            It defines attributes (fields/variables) and methods (functions) that the objects will have.
+
+            In simple terms:
+                - Class = Design/Plan
+                - Object = Actual implementation (real entity)
+
+            Real-life Analogy:
+                - A “Car” class defines properties (color, model, speed) and methods (start(), stop()).
+                - Actual cars like BMW, Tesla, Maruti are objects created from that class.
+
+        -> Class Declaration
+            In Java, a class is declared using the class keyword.
+            
+            Syntax:
+                class ClassName {
+                    // Fields (variables / data members)
+                    // Methods (functions / behavior)
+                }
+
+            Example:
+                class Student {
+                    // Data members
+                    int id;
+                    String name;
+
+                    // Method
+                    void display() {
+                        System.out.println("ID: " + id + ", Name: " + name);
+                    }
+                }
+
+        -> Object Creation (Instantiation)
+            Objects are created from classes using the new keyword.
+
+            Syntax:
+                ClassName obj = new ClassName();
+
+            Example:
+                public class TestStudent {
+                    public static void main(String[] args) {
+                        Student s1 = new Student(); // Object creation
+                        s1.id = 101;
+                        s1.name = "Vinit";
+                        s1.display();  // Output: ID: 101, Name: Vinit
+                    }
+                }
+
+            Here:
+                Student → Class
+                s1 → Object
+                new Student() → Object creation (constructor is called)
+
+        -> Access Modifiers
+            Access modifiers define the scope (visibility) of classes, methods, and variables.
+
+            Types of Access Modifiers in Java
+                1. private
+
+                2. default (no keyword)
+
+                3. protected
+
+                4. public
+
+        -> Diagram (For Exam)
+
+        -> Real-Life Example (Bank System)
+
+        -> Summary
+
+
+    2.2 Objects: Creation, Declaration, Instantiation
+
+
+    2.3 Constructors: Use case and Types
+
+
+    2.4 Methods: Declaration, Invocation, Types: Getter & Setter
+
+
+    2.5 Static and Final Keywords
