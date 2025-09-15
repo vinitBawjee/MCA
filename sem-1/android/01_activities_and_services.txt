@@ -573,5 +573,94 @@
 
     1.6 Service: Overview, Life Cycle, Types
 
+        -> Overview of Service
+            Definition:
+                Service ek application component hai jo background me long-running operations perform karta hai bina user interface (UI) ke.
+                Activity foreground me hoti hai, jabki Service background me kaam karti rehti hai.
 
+            Real-life Example:
+            - WhatsApp: Background service messages receive karti rehti hai even jab app band ho.
+            - Spotify: Music service background me play hoti hai jab tum dusra app use kar rahe ho.
+            - Google Maps: Location tracking service chalti rehti hai.
+
+        -> Service Life Cycle
+            Service ka apna life cycle methods hote hain (Activity ke jaise but simpler).
+
+            Important Callbacks:
+                (1) onCreate()
+                    Jab service first time create hoti hai.
+
+                    @Override
+                    public void onCreate() {
+                        super.onCreate();
+                        Log.d("ServiceDemo", "Service Created");
+                    }
+
+                (2) onStartCommand()
+                    Jab service start hoti hai (main kaam yaha likhte hain).
+
+                    @Override
+                    public int onStartCommand(Intent intent, int flags, int startId) {
+                        Log.d("ServiceDemo", "Service Started");
+                        return START_STICKY;
+                    }
+
+                (3) onBind()
+                    Jab service ko activity ke sath bind karna ho. (rare, specially bound services ke liye).
+
+                (4) onDestroy()
+                    Jab service stop ho jati hai.
+
+                    @Override
+                    public void onDestroy() {
+                        super.onDestroy();
+                        Log.d("ServiceDemo", "Service Destroyed");
+                    }
+
+            Real-life Example Flow:
+                Spotify open karke song play karo → Service start hogi (onStartCommand).
+                App band kar do → Song phir bhi play hoga (service background me).
+                Stop button dabao → Service stop hogi (onDestroy).
+
+        -> Types of Services
+
+            (a) Foreground Service
+                - Definition: Service jo actively run hoti hai aur notification bar me visible hoti hai.
+                - Use case: Music player, fitness tracking app.
+                - Example: Spotify ka music play notification.
+
+                Syntax:
+                    startForegroundService(new Intent(this, MusicService.class));
+
+            (b) Background Service
+                - Definition: Service jo background me bina notification ke run hoti hai.
+                - Use case: Syncing data, sending logs.
+                - Note: Latest Android versions me background service restrictions zyada hain.
+                - Example: WhatsApp ka auto backup.
+
+                Syntax:
+                    startService(new Intent(this, SyncService.class));
+
+            (c) Bound Service
+                - Definition: Service jisme ek component (Activity/Fragment) directly connect karke interact kar sakta hai.
+                - Use case: Music player controls → Activity se service ko directly control karna.
+                - Example: Activity → Service se "pause, play, stop" commands bhejna.
+
+                Syntax:
+                    @Override
+                    public IBinder onBind(Intent intent) {
+                        return new LocalBinder();
+                    }
+
+        -> Real-life Examples
+
+            - Foreground Service: Spotify playing songs with notification.
+            - Background Service: WhatsApp message receiving.
+            - Bound Service: Media player app where activity controls music service.
+
+        -> Conclusion
+
+            - Service ek important Android component hai jo background tasks handle karta hai.
+            - Service ke life cycle methods (onCreate, onStartCommand, onDestroy) ko samajhna important hai.
+            - Types of Service: Foreground, Background, Bound – har ek ka apna use case hai.
 
