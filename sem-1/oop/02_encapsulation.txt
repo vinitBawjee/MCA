@@ -63,26 +63,627 @@
             Types of Access Modifiers in Java
                 1. private
 
+                    - Accessible only within the same class.
+                    - Used for data hiding.
+
+                    Example:
+                        class Account {
+                            private double balance;
+
+                            public void setBalance(double amount) {
+                                balance = amount;
+                            }
+
+                            public double getBalance() {
+                                return balance;
+                            }
+                        }
+
                 2. default (no keyword)
+                    Accessible within the same package only.
+
+                    Example:
+                        class PackageClass {
+                            void show() {
+                                System.out.println("Default access");
+                            }
+                        }
 
                 3. protected
+                    Accessible within same package + subclasses in other packages.
+
+                    Example:
+                        class Animal {
+                            protected void eat() {
+                                System.out.println("Eating...");
+                            }
+                        }
+
+                        class Dog extends Animal {
+                            void sound() {
+                                eat(); // Accessible because of inheritance
+                                System.out.println("Barking...");
+                            }
+                        }
 
                 4. public
+                    Accessible everywhere.
+
+                    Example:
+                        public class PublicClass {
+                            public void display() {
+                                System.out.println("Accessible everywhere");
+                            }
+                        }
 
         -> Diagram (For Exam)
+            Class and Object Relationship
+
+                        Class (Blueprint)
+                    -------------------------
+                    |   Fields + Methods    |
+                    -------------------------
+                            |       |
+                        Object1   Object2
+
+            Access Modifiers Hierarchy - 
+
+                private < default < protected < public
 
         -> Real-Life Example (Bank System)
+            class BankAccount {
+                private double balance;   // private → Encapsulation
+
+                public void deposit(double amount) {  // public method
+                    balance += amount;
+                }
+
+                public void withdraw(double amount) {
+                    if(balance >= amount)
+                        balance -= amount;
+                    else
+                        System.out.println("Insufficient balance");
+                }
+
+                public double getBalance() {
+                    return balance;
+                }
+            }
+
+            public class Bank {
+                public static void main(String[] args) {
+                    BankAccount acc = new BankAccount(); // Object creation
+                    acc.deposit(5000);
+                    acc.withdraw(2000);
+                    System.out.println("Balance: " + acc.getBalance());
+                }
+            }
+
+            Output:
+                Balance: 3000.0
 
         -> Summary
 
+            Class: Blueprint containing variables + methods.
+            Object: Instance of a class.
+            Declaration: Done with class keyword.
+            Object Creation: Using new keyword.
+            Access Modifiers:
+                - private → Only in class
+                - default → Same package
+                - protected → Package + subclasses
+                - public → Everywhere
 
     2.2 Objects: Creation, Declaration, Instantiation
+
+        -> Introduction
+
+            Definition of Object:
+                An object is an instance of a class.
+                It represents a real-world entity with state (data/attributes) and behavior (methods/functions).
+
+            In OOP:
+                Class = Blueprint/Plan
+                Object = Actual entity created from that blueprint
+
+            Real-life Analogy:
+                Class → “Car” design.
+                Object → Actual cars like Tesla, BMW, Maruti.
+
+        -> Steps of Object Handling
+
+            There are three main steps for working with objects:
+                - Declaration – Declare a reference variable.
+                - Instantiation – Create memory using new keyword.
+                - Initialization – Assign values to object fields.
+
+            (A) Object Declaration
+                Declares a variable that can store a reference to an object.
+
+                Syntax:
+                    ClassName obj;
+
+                Example:
+                    Student s;   // s is just a reference variable (no object created yet)
+
+            (B) Object Instantiation
+                Creates memory for the object using the new keyword.
+
+                Syntax:
+                    obj = new ClassName();
+
+                Example:
+                    s = new Student();  // memory allocated
+
+            (C) Object Creation (Declaration + Instantiation Together)
+                Most commonly done in a single step.
+
+                Syntax:
+                    ClassName obj = new ClassName();
+
+                Example:
+                    Student s = new Student();  
+
+                Process Breakdown:
+                    Student → Class name
+                    s → Object reference variable
+                    new Student() → Creates an object in memory (calls constructor)
+
+        -> Example Program
+
+            class Student {
+                int id;
+                String name;
+
+                void display() {
+                    System.out.println("ID: " + id + ", Name: " + name);
+                }
+            }
+
+            public class TestStudent {
+                public static void main(String[] args) {
+                    // Object Declaration + Instantiation
+                    Student s1 = new Student();  
+                    s1.id = 101;        // Initialization
+                    s1.name = "Vinit";
+                    s1.display();
+
+                    // Another Object
+                    Student s2 = new Student();
+                    s2.id = 102;
+                    s2.name = "Raj";
+                    s2.display();
+                }
+            }
+
+            Output:
+                ID: 101, Name: Vinit
+                ID: 102, Name: Raj
+
+        -> Multiple Objects 
+            A single class can create multiple objects.
+            Each object has independent copy of variables.
+
+            Example:
+                Car c1 = new Car();
+                Car c2 = new Car();
+
+            Both c1 and c2 will have their own attributes (color, speed, model).
+
+        -> Diagram (For Exam)
+
+                Class: Student
+                ----------------------
+                | int id;           |
+                | String name;      |
+                | void display();   |
+                ----------------------
+
+                        ↓ new
+
+                Object 1: s1             Object 2: s2
+                -----------------        -----------------
+                | id = 101      |        | id = 102      |
+                | name = Vinit  |        | name = Raj    |
+                -----------------        -----------------
+
+        -> Real-Life Example (Bank Account)
+
+            class Account {
+                int accNo;
+                double balance;
+
+                void display() {
+                    System.out.println("AccNo: " + accNo + ", Balance: " + balance);
+                }
+            }
+
+            public class Bank {
+                public static void main(String[] args) {
+                    Account a1 = new Account();  // Object 1
+                    a1.accNo = 1001;
+                    a1.balance = 5000;
+                    a1.display();
+
+                    Account a2 = new Account();  // Object 2
+                    a2.accNo = 1002;
+                    a2.balance = 12000;
+                    a2.display();
+                }
+            }
+
+            Output:
+                AccNo: 1001, Balance: 5000.0
+                AccNo: 1002, Balance: 12000.0
+
+        -> Summary
+
+            Object → Instance of a class.
+            Steps:
+                - Declaration → ClassName obj;
+                - Instantiation → obj = new ClassName();
+                - Initialization → obj.field = value;
+            Can create multiple objects from one class.
+            Each object has independent state.
+            Objects make programs real-world oriented.
 
 
     2.3 Constructors: Use case and Types
 
+        -> Introduction
+            A constructor is a special method in Java that is automatically called when an object is created.
+            It is mainly used to initialize the object.
+
+            Key Points:
+                - Constructor name = same as class name.
+                - It has no return type (not even void).
+                - Automatically invoked during object creation.
+
+        -> Use Cases of Constructors
+
+            Automatic Initialization → When we create an object, variables get initialized directly.
+            Improves Readability → No need to call extra init() methods.
+            Code Reusability → Same constructor can initialize multiple objects.
+            Flexibility → Overloaded constructors allow different ways of creating objects.
+
+        -> Syntax of Constructor
+
+            class ClassName {
+                // Constructor
+                ClassName() {
+                    // initialization code
+                }
+            }
+
+            Example:
+                class Student {
+                    int id;
+                    String name;
+
+                    // Constructor
+                    Student(int i, String n) {
+                        id = i;
+                        name = n;
+                    }
+
+                    void display() {
+                        System.out.println("ID: " + id + ", Name: " + name);
+                    }
+                }
+
+                public class Test {
+                    public static void main(String[] args) {
+                        Student s1 = new Student(101, "Vinit");
+                        Student s2 = new Student(102, "Raj");
+
+                        s1.display();
+                        s2.display();
+                    }
+                }
+
+            Output:
+                ID: 101, Name: Vinit
+                ID: 102, Name: Raj
+
+        -> Types of Constructors in Java
+
+            (A) Default Constructor
+                - Provided by Java compiler if no constructor is defined.
+                - Initializes variables with default values (0, null, false).
+
+                Example:
+                    class Car {
+                        String model;
+                        int price;
+                    }
+
+                    public class TestCar {
+                        public static void main(String[] args) {
+                            Car c = new Car();   // Default constructor called
+                            System.out.println(c.model);  // null
+                            System.out.println(c.price);  // 0
+                        }
+                    }
+
+            (B) No-Argument Constructor (User-Defined Default)
+                - Defined by programmer.
+                - Used when we want to initialize with fixed values.
+
+                Example:
+                    class Car {
+                        String model;
+                        int price;
+
+                        // No-arg constructor
+                        Car() {
+                            model = "Tesla";
+                            price = 50000;
+                        }
+
+                        void display() {
+                            System.out.println("Model: " + model + ", Price: " + price);
+                        }
+                    }
+
+                    public class TestCar {
+                        public static void main(String[] args) {
+                            Car c1 = new Car();
+                            c1.display();  // Model: Tesla, Price: 50000
+                        }
+                    }
+
+            (C) Parameterized Constructor
+                - Accepts arguments to initialize an object with dynamic values.
+
+                Example:
+                    class Car {
+                        String model;
+                        int price;
+
+                        Car(String m, int p) {
+                            model = m;
+                            price = p;
+                        }
+
+                        void display() {
+                            System.out.println("Model: " + model + ", Price: " + price);
+                        }
+                    }
+
+                    public class TestCar {
+                        public static void main(String[] args) {
+                            Car c1 = new Car("BMW", 70000);
+                            Car c2 = new Car("Audi", 80000);
+
+                            c1.display();
+                            c2.display();
+                        }
+                    }
+
+                    Output:
+                        Model: BMW, Price: 70000
+                        Model: Audi, Price: 80000
+
+            (D) Copy Constructor (User-defined in Java)
+                - Java does not provide a built-in copy constructor like C++, but we can create one manually.
+                - Used to create a new object by copying values of another object.
+
+                Example:
+                    class Car {
+                        String model;
+                        int price;
+
+                        // Parameterized constructor
+                        Car(String m, int p) {
+                            model = m;
+                            price = p;
+                        }
+
+                        // Copy constructor
+                        Car(Car c) {
+                            model = c.model;
+                            price = c.price;
+                        }
+
+                        void display() {
+                            System.out.println("Model: " + model + ", Price: " + price);
+                        }
+                    }
+
+                    public class TestCar {
+                        public static void main(String[] args) {
+                            Car c1 = new Car("Tesla", 60000);
+                            Car c2 = new Car(c1);  // Copy constructor
+
+                            c1.display();
+                            c2.display();
+                        }
+                    }
+                
+                Output:
+                    Model: Tesla, Price: 60000
+                    Model: Tesla, Price: 60000
+
+        -> Diagram (For Exam)
+
+                            new keyword
+                Class -----------------------> Object
+                (Car)                        (Car c1)
+                    |                            |
+                    |----> Constructor() --------|
+                                initializes data
+
+        -> Real-Life Example (Bank System)
+
+            class BankAccount {
+                int accNo;
+                double balance;
+
+                // Parameterized constructor
+                BankAccount(int a, double b) {
+                    accNo = a;
+                    balance = b;
+                }
+
+                void display() {
+                    System.out.println("AccNo: " + accNo + ", Balance: " + balance);
+                }
+            }
+
+            public class Bank {
+                public static void main(String[] args) {
+                    BankAccount acc1 = new BankAccount(1001, 5000);
+                    BankAccount acc2 = new BankAccount(1002, 10000);
+
+                    acc1.display();
+                    acc2.display();
+                }
+            }
+
+            Output:
+                AccNo: 1001, Balance: 5000.0
+                AccNo: 1002, Balance: 10000.0
+
+        -> Summary
+            Constructor → Special method for object initialization.
+            Use cases: Automatic initialization, code readability, reusability, flexibility.
+            Types of Constructors in Java:
+                - Default (compiler-provided)
+                - No-argument (user-defined)
+                - Parameterized
+                - Copy Constructor (user-defined)
 
     2.4 Methods: Declaration, Invocation, Types: Getter & Setter
+
+        -> Introduction
+            A method in Java is a block of code that performs a specific task.
+            It helps in code reusability, readability, and modularity.
+
+            Key Points:
+                - A method is executed when it is called/invoked.
+                - Methods can take parameters (inputs) and may return a value (output).
+
+        -> Method Declaration
+            A method is declared inside a class.
+
+            Syntax:
+                returnType methodName(parameter1, parameter2, ...) {
+                    // method body
+                    return value;  // if returnType is not void
+                }
+
+            Example:
+                class MathUtil {
+                    int add(int a, int b) {    // method declaration
+                        return a + b;
+                    }
+                }
+
+        -> Method Invocation (Calling a Method)
+            To execute a method, we invoke it using the object.
+
+            Syntax:
+                objectName.methodName(arguments);
+
+            Example:
+                public class TestMath {
+                    public static void main(String[] args) {
+                        MathUtil obj = new MathUtil();   // object creation
+                        int sum = obj.add(5, 10);        // method invocation
+                        System.out.println("Sum: " + sum);
+                    }
+                }
+
+            Output:
+                Sum: 15
+
+        -> Types of Methods
+
+            There are two main categories of methods in Java:
+
+                (A) Predefined Methods
+                    - Already defined in Java libraries.
+                    - Examples: length(), charAt(), sqrt(), toUpperCase().
+
+                    Example:
+                        public class PredefinedExample {
+                            public static void main(String[] args) {
+                                String name = "Vinit";
+                                System.out.println(name.length());     // 5
+                                System.out.println(Math.sqrt(16));     // 4.0
+                            }
+                        }
+
+                (B) User-Defined Methods
+                    - Created by programmer according to requirements.
+                    - Examples: calculateArea(), depositMoney(), getMarks().
+
+                    Example:
+                        class Calculator {
+                            int square(int num) {
+                                return num * num;
+                            }
+                        }
+
+                        public class TestCalc {
+                            public static void main(String[] args) {
+                                Calculator c = new Calculator();
+                                System.out.println("Square: " + c.square(5));
+                            }
+                        }
+
+                    Output:
+                        Square: 25
+
+        -> Getter and Setter Methods
+
+            Definition:
+                Getter methods → Used to access (read) private variables.
+                Setter methods → Used to modify (write) private variables.
+
+            These follow the principle of Encapsulation.
+
+                (A) Getter Method
+                    Used to get the value of a variable.
+                    Naming convention: getVariableName().
+
+                    Example:
+                        class Student {
+                            private String name;
+
+                            // Getter
+                            public String getName() {
+                                return name;
+                            }
+
+                            // Setter
+                            public void setName(String n) {
+                                name = n;
+                            }
+                        }
+
+                        public class TestStudent {
+                            public static void main(String[] args) {
+                                Student s = new Student();
+                                s.setName("Vinit");          // Setter called
+                                System.out.println(s.getName());  // Getter called
+                            }
+                        }
+                    
+                    Output:
+                        Vinit
+
+                (B) Setter Method
+                    - Used to set the value of a variable.
+                    - Naming convention: setVariableName(value).
+
+                    Already shown above with setName(String n).
+
+        -> Real-Life Example (Bank System)
+
+        -> Diagram (For Exam)
+
+        -> Summary
 
 
     2.5 Static and Final Keywords
