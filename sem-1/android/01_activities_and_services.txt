@@ -484,6 +484,92 @@
 
     1.5 Dialogs: Introduction, Need, Types
 
+        -> Introduction of Dialogs
+            Definition:
+                Dialog ek small popup window hota hai jo current activity ke upar appear hota hai aur user ko information dikhata hai ya koi action perform karne ke liye prompt karta hai.
+                Dialog ke peeche wali activity partially visible hoti hai aur background inactive ban jata hai.
+
+            Real-life Example:
+                - WhatsApp me jab "Delete Chat?" aata hai → ye ek dialog hai.
+                - Google Play Store me jab app install karte ho aur "Allow Permission?" aata hai → dialog use hota hai.
+
+        -> Need of Dialogs
+
+            Dialogs kyu use karte hain?
+                (1) User Confirmation – e.g., Exit karne pe "Are you sure?" dialog.
+                (2) Quick Information – e.g., "File Downloaded Successfully" message.
+                (3) User Input – e.g., Login form ke liye popup dialog.
+                (4) Selection from List – e.g., Ringtone select karna.
+                (5) System Alert / Warning – e.g., Low Battery notification.
+
+            Dialog ka main purpose hai user ko bina activity change kiye prompt karna.
+
+        -> Types of Dialogs
+
+            Android me mainly 4 types ke dialogs use hote hain:
+                (a) AlertDialog
+                    Most common dialog jo message show + 1/2/3 buttons hota hai (Yes/No/Cancel).
+                    Example: App close karte time confirmation.
+
+                    Syntax:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Exit");
+                        builder.setMessage("Are you sure you want to exit?");
+                        builder.setPositiveButton("Yes", (dialog, which) -> finish());
+                        builder.setNegativeButton("No", null);
+                        builder.show();
+
+                (b) ProgressDialog
+                    Long running task (download, upload, etc.) dikhane ke liye.
+                    Example: File downloading dialog.
+
+                    Syntax:
+                        ProgressDialog progress = new ProgressDialog(this);
+                        progress.setMessage("Downloading...");
+                        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        progress.setIndeterminate(true);
+                        progress.show();
+
+                (c) DatePickerDialog & TimePickerDialog
+                    - DatePickerDialog: Date choose karne ke liye.
+                    - TimePickerDialog: Time set karne ke liye.
+                    Example: Ticket booking app me travel date choose karna.
+
+                    DatePicker Syntax:
+                        DatePickerDialog dpd = new DatePickerDialog(this,
+                            (view, year, month, day) -> {
+                                Toast.makeText(this, day + "/" + (month+1) + "/" + year, Toast.LENGTH_SHORT).show();
+                            }, 2025, 8, 15);
+                        dpd.show();
+
+                    TimePicker Syntax:
+                        TimePickerDialog tpd = new TimePickerDialog(this,
+                            (view, hour, minute) -> {
+                                Toast.makeText(this, hour + ":" + minute, Toast.LENGTH_SHORT).show();
+                            }, 12, 0, true);
+                        tpd.show();
+
+                (d) Custom Dialog
+                    - Developer apna layout XML design karke dialog ke andar use karta hai.
+                    Example: Login dialog (username + password fields inside popup).
+
+                    Syntax:
+                        Dialog dialog = new Dialog(this);
+                        dialog.setContentView(R.layout.custom_dialog);
+                        dialog.setTitle("Login");
+                        dialog.show();
+
+        -> Real-life Examples of Dialogs
+            - AlertDialog: "Delete this message?" in WhatsApp.
+            - ProgressDialog: "Uploading 50%" while sending a file.
+            - DatePickerDialog: Choose DOB in registration form.
+            - Custom Dialog: Enter OTP popup.
+
+        -> Conclusion
+
+            Dialogs ek important UI component hai jo quick interaction, confirmation aur input ke liye use hote hain.
+            Android me AlertDialog, ProgressDialog, DatePicker/TimePickerDialog aur CustomDialog commonly use hote hain.
+
 
     1.6 Service: Overview, Life Cycle, Types
 
