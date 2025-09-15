@@ -112,6 +112,96 @@
 
     1.2 Activity: Life Cycle, Intent: Communication with Multiple Screen and Built-In Application
 
+        -> Activity in Android
+            Definition:
+            Activity ek single screen with UI hoti hai Android app ke andar.
+            Har app ke andar multiple activities ho sakti hain (e.g., LoginActivity, DashboardActivity).
+
+            Real-life Example:
+                WhatsApp → Chat Screen ek activity hai, Status ek alag activity hai, Calls ek alag activity hai.
+
+        -> Activity Life Cycle
+            Activity ke 6 main callback methods hote hain jo system automatically call karta hai.
+
+            Phases of Activity:
+                (1) onCreate() → Activity create hoti hai (UI load hota hai).
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_main);
+                    }
+
+                    Example: Jab app pehli baar open hota hai → UI load hota hai.
+
+                (2) onStart() → Activity visible hoti hai but interactive nahi.
+
+                (3) onResume() → Activity visible aur interactive ho jati hai.
+                    Example: Jab tum YouTube open karke video play karte ho.
+
+                (4) onPause() → Activity partially visible (dusra app open karte time).
+
+                (5) onStop() → Activity screen se remove hoti hai (background me chali jati hai).
+
+                (6) onDestroy() → Activity destroy ho jati hai (close ho jati hai).
+
+                Real-life Example Flow:
+                    WhatsApp → Chat screen open (onCreate → onStart → onResume).
+                    Back button dabao → (onPause → onStop → onDestroy).
+
+        -> Intent in Android
+            Definition:
+                Intent ek messaging object hai jo ek activity se dusri activity ya built-in app ke saath communication karta hai.
+
+            Types of Intent:
+                1. Explicit Intent → App ke andar hi ek activity se dusri activity call karne ke liye.
+                Example: LoginActivity → DashboardActivity.  
+                    Intent i = new Intent(MainActivity.this, SecondActivity.class);
+                    startActivity(i);
+
+                2. Implicit Intent → Built-in apps ko call karne ke liye (dialer, camera, gallery, browser).
+                Example: Dialer open karna.
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:9876543210"));
+                    startActivity(callIntent);
+
+        -> Communication with Multiple Screens
+            Jab ek activity se dusri activity pe data bhejna ho to Intent + putExtra() + getExtra() ka use hota hai.
+
+            Example (Pass Data from Activity A → Activity B):
+                // Activity A
+                Intent i = new Intent(MainActivity.this, SecondActivity.class);
+                i.putExtra("username", "Bunty");
+                startActivity(i);
+
+                // Activity B
+                String name = getIntent().getStringExtra("username");
+                Toast.makeText(this, "Hello " + name, Toast.LENGTH_SHORT).show();
+
+            Real-life Example:
+                Login screen se username ko dashboard me show karna.
+
+        -> Communication with Built-in Applications
+
+            Camera open karna:
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivity(cameraIntent);
+
+            Browser open karna:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+                startActivity(browserIntent);
+
+            Gallery open karna:
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivity(galleryIntent);
+
+            Real-life Example:
+                - Facebook → Profile picture update → Gallery ya Camera open hota hai.
+                - Zomato → Call restaurant → Dialer open hota hai.
+
+        -> Conclusion
+
+            - Activity Life Cycle samajhna zaroori hai kyunki ye define karta hai ki app ka behavior har state me kaisa hoga.
+            - Intent ek strong communication mechanism hai jo multiple screens + built-in apps ko easily connect karta hai.
 
     1.3 Fragment: Introduction, Need, Life Cycle, Creation and Interfragment Communication
 
