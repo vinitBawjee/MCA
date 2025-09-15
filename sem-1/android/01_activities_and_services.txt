@@ -1,0 +1,128 @@
+1. Activities and Services
+
+
+    1.1 Overview of Mobile Technologies, Mobile Platform Features, Architecture, Versions, and Development Tools
+
+        -> Overview of Mobile Technologies
+            Mobile technology ek rapidly growing field hai jisme smartphone, tablet, wearables aur IoT devices included hote hain.
+            Ye technologies mainly wireless communication (4G/5G, Wi-Fi, Bluetooth, NFC) aur mobile applications ke around hoti hain.
+
+            Real-life example:
+                - Ola/Uber app GPS + Mobile Internet + Payment Gateway ka use karti hai.
+                - WhatsApp: instant messaging via internet.
+
+        -> Mobile Platform Features
+            Har mobile OS (Android, iOS, Windows, etc.) kuch features provide karta hai:
+
+                (1) Touchscreen Interface – Gesture support (tap, swipe, pinch).
+                    Example: Google Maps me pinch karke zoom karna.
+
+                (2) App Store/Play Store – Application distribution platform.
+                    Example: Play Store se Zomato download karna.
+
+                (3) Connectivity – 4G/5G, Wi-Fi, Bluetooth, NFC.
+
+                (4) Security – Sandboxing, permissions, biometric authentication.
+
+                (5) Cloud Integration – Google Drive, iCloud, OneDrive.
+
+            Syntax (Android - Permission Example):
+                <uses-permission android:name="android.permission.INTERNET"/>
+
+        -> Mobile Architecture
+
+            Mobile architecture define karti hai ki applications aur system resources kaise interact karte hain.
+            Mostly layered architecture hoti hai:
+
+            Android Architecture (Example):
+                Applications Layer – User apps (WhatsApp, Instagram).
+                Application Framework – Activity Manager, Window Manager.
+                Libraries & Runtime – SQLite, WebKit, ART/Dalvik VM.
+                Linux Kernel – Hardware drivers, power management.
+
+            Real-life Example:
+                Jab tum YouTube open karte ho → Application layer request karta hai → Framework manage karta hai → Libraries video decoding handle karti hain → Kernel hardware resources (CPU/GPU) allocate karta hai.
+
+        -> Versions of Mobile Platforms
+
+            Mobile OS har kuch saal me naye versions release karte hain jisme features + security + performance improvements hoti hain.
+
+            Android Versions Example:
+                Android 5.0 (Lollipop) – Material Design introduced.
+                Android 6.0 (Marshmallow) – App permissions model.
+                Android 10 – Dark mode.
+                Android 14/15 – Better privacy, AI features.
+
+            iOS Versions Example:
+                iOS 10 – Siri integration.
+                iOS 13 – Dark mode.
+                iOS 17 – StandBy mode, improved widgets.
+
+            Syntax (Check device version in Android):
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Toast.makeText(this, "Running on Android 10 or above", Toast.LENGTH_SHORT).show();
+                }
+
+        -> Development Tools
+
+            Mobile app banane ke liye developers ko alag-alag tools milte hain:
+
+            Android:
+                - Android Studio – Official IDE.
+                - Languages – Java, Kotlin.
+                - Emulator – Device testing.
+
+            Syntax (Simple Activity Example in Java):
+                public class MainActivity extends AppCompatActivity {
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_main);
+                    }
+                }
+
+            iOS:
+                - Xcode – IDE for iOS apps.
+                - Languages – Swift, Objective-C.
+
+            Swift Example (Hello World):
+                import UIKit
+
+                class ViewController: UIViewController {
+                    override func viewDidLoad() {
+                        super.viewDidLoad()
+                        print("Hello iOS World!")
+                    }
+                }
+
+            Cross-Platform:
+                - React Native (JavaScript).
+                - Flutter (Dart).
+                - Xamarin (.NET, C#).
+
+            Flutter Example (Hello World):
+                import 'package:flutter/material.dart';
+
+                void main() => runApp(MaterialApp(home: Text('Hello Flutter')));
+
+        -> Conclusion
+
+            Mobile technologies ne aaj ke time me lifestyle aur businesses dono change kar diye hain. Har platform ki apni features, architecture, versions aur tools hote hain jo development aur user experience ko define karte hain.
+
+
+    1.2 Activity: Life Cycle, Intent: Communication with Multiple Screen and Built-In Application
+
+
+    1.3 Fragment: Introduction, Need, Life Cycle, Creation and Interfragment Communication
+
+
+    1.4 User Interface Containers and Screen Elements
+
+
+    1.5 Dialogs: Introduction, Need, Types
+
+
+    1.6 Service: Overview, Life Cycle, Types
+
+
+
