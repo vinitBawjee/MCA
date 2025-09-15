@@ -321,6 +321,166 @@
 
     1.4 User Interface Containers and Screen Elements
 
+        -> Introduction
+            Android me User Interface (UI) ek combination hota hai containers (jo dusre elements hold karte hain) aur screen elements (jo directly user se interact karte hain).
+            - Containers → Layouts (LinearLayout, RelativeLayout, ConstraintLayout, etc.)
+            - Screen Elements → Views/Widgets (Button, TextView, EditText, ImageView, etc.)
+
+            Real-life Example:
+                WhatsApp → Chat screen → Container = LinearLayout, Screen Elements = TextView (name), EditText (message box), Button (send).
+
+        -> UI Containers (Layouts in Android)
+            Containers basically parent views hote hain jo child views ko arrange karte hain.
+
+            (a) LinearLayout
+                Arrange child views horizontally ya vertically.
+                Example: Form filling screen (Name, Email, Password fields ek ke neeche ek).
+
+                Syntax:
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        
+                        <TextView android:text="Enter Name"/>
+                        <EditText android:hint="Name"/>
+                    </LinearLayout>
+
+            (b) RelativeLayout
+                Views ko ek dusre ke relation me arrange karta hai.
+                Example: Profile picture left side aur name uske right me.
+
+                Syntax:
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/profile"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"/>
+
+                        <TextView
+                            android:layout_toRightOf="@id/profile"
+                            android:text="Bunty"/>
+                    </RelativeLayout>
+
+            (c) ConstraintLayout
+                Most flexible layout, complex UIs ke liye use hoti hai.
+                Example: Instagram post screen (image, likes, comments aligned properly).
+
+                Syntax:
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            (d) FrameLayout
+                Ek single block jisme ek view hota hai (ya overlap kar sakte ho).
+                Example: Video player me ek hi container jisme video dikh raha hai.
+
+                Syntax:
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView android:src="@drawable/pic"/>
+                    </FrameLayout>
+
+            (e) ScrollView
+                Agar content screen se bada ho to scroll karne ke liye use hoti hai.
+                Example: Long terms & conditions page.
+
+                Syntax:
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView android:text="This is a long text..."/>
+                    </ScrollView>
+
+        -> Screen Elements (Widgets in Android)
+            Screen elements wo views hote hain jo user se interact karte hain.
+
+            (a) TextView
+                Static text dikhata hai.
+
+                Example: "Welcome Bunty" message.
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello Bunty"/>
+
+            (b) EditText
+                User input lene ke liye.
+
+                Example: Login form me username/password field.
+                    <EditText
+                    android:hint="Enter Username"
+                    android:inputType="text"/>
+
+            (c) Button
+                Action perform karne ke liye.
+
+                <Button
+                android:text="Login"
+                android:onClick="loginMethod"/>
+
+            (d) ImageView
+                Image dikhane ke liye.
+
+                Example: Profile picture.
+                    <ImageView
+                    android:src="@drawable/profile_pic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+
+            (e) CheckBox & RadioButton
+                - CheckBox: Multiple selection. (e.g., Hobbies select karna)
+                - RadioButton: Single selection. (e.g., Gender choose karna)
+
+                <CheckBox android:text="Reading"/>
+                <RadioButton android:text="Male"/>
+
+            (f) Spinner
+                Dropdown list.
+
+                Example: City selection in form.
+                    <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            (g) ProgressBar
+                Task progress dikhane ke liye.
+
+                Example: File download ho raha hai.
+                    <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/progressBarStyleLarge"/>
+
+        -> Real-Life Example UI
+
+            WhatsApp Chat Screen:
+                - Container: LinearLayout (Vertical orientation).
+                - Screen Elements:
+                    TextView → Name, Message.
+                    ImageView → Profile picture.
+                    EditText → Type a message.
+                    Button → Send.
+
+        -> Conclusion
+            
+            - Containers (Layouts) define karte hain ki UI elements kaise arrange honge.
+            - Screen Elements (Widgets) directly user ke sath interact karte hain.
+            - In dono ka sahi combination ek interactive aur responsive mobile application banata hai.
+
 
     1.5 Dialogs: Introduction, Need, Types
 
