@@ -1,0 +1,79 @@
+2. React Components and Elements
+
+
+    2.1 Creating and Rendering Elements
+
+        -> Introduction
+            React ek JavaScript library hai jo UI (User Interface) banane ke liye use hoti hai. React me sabse basic building block elements hote hai. Elements React ko batate hai ki UI kaise dikhna chahiye.
+                - React element ek plain JavaScript object hota hai.
+                - Ye elements Immutable hote hai (once created, change nahi hote).
+                - React DOM ko update karta hai efficiently using Virtual DOM.
+
+        -> Creating Elements
+
+            React me elements create karne ke do tarike hote hai:
+                (1) Using JSX (JavaScript XML)
+                    - JSX ek syntax extension hai jo HTML jaise dikhta hai but internally React.createElement() call karta hai.
+                    - Ye simple aur readable hai.
+
+                    Example:
+                        const element = <h1>Hello, React!</h1>;
+
+                (2) Without JSX (Using React.createElement)
+                    Agar JSX use nahi karna ho to directly function call kar sakte ho.
+
+                    Example:
+                        const element = React.createElement("h1", null, "Hello, React!");
+
+        -> Rendering Elements
+            - Elements ko UI me show karne ke liye React ka ReactDOM.createRoot() aur .render() method use hota hai.
+            - React elements DOM ke andar ek specific root node ke through render hote hai.
+
+            Syntax:
+                import React from "react";
+                import ReactDOM from "react-dom/client";
+
+                const element = <h1>Hello, World!</h1>;
+                const root = ReactDOM.createRoot(document.getElementById("root"));
+                root.render(element);
+
+        -> Real-Life Example
+            Example: Ek website ke welcome page pe greeting message show karna.
+
+                import React from "react";
+                import ReactDOM from "react-dom/client";
+
+                const user = {
+                name: "Bunty",
+                age: 22
+                };
+
+                const element = (
+                <div>
+                    <h1>Welcome, {user.name}!</h1>
+                    <p>Age: {user.age}</p>
+                </div>
+                );
+
+                const root = ReactDOM.createRoot(document.getElementById("root"));
+                root.render(element);
+
+            Output:
+                Welcome, Bunty!
+                Age: 22
+
+        -> Key Points (Exam Oriented)
+            React elements are lightweight objects.
+            JSX is converted to React.createElement() by Babel.
+            Elements are Immutable → Agar UI update karna hai to new element create karna hota hai.
+            Rendering ka main function hai:
+                - ReactDOM.createRoot() → root node define karta hai.
+                - root.render() → element ko screen par display karta hai.
+
+    2.2 Components and Props Types: Built-in and Custom Property Validation
+
+    2.3 Class Components and Functional Components
+
+    2.4 CSS in JS and Styled Components
+
+    2.5 React Routing

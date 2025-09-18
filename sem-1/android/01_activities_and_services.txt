@@ -114,8 +114,8 @@
 
         -> Activity in Android
             Definition:
-            Activity ek single screen with UI hoti hai Android app ke andar.
-            Har app ke andar multiple activities ho sakti hain (e.g., LoginActivity, DashboardActivity).
+                Activity ek single screen with UI hoti hai Android app ke andar.
+                Har app ke andar multiple activities ho sakti hain (e.g., LoginActivity, DashboardActivity).
 
             Real-life Example:
                 WhatsApp → Chat Screen ek activity hai, Status ek alag activity hai, Calls ek alag activity hai.

@@ -174,6 +174,7 @@
                 - protected → Package + subclasses
                 - public → Everywhere
 
+
     2.2 Objects: Creation, Declaration, Instantiation
 
         -> Introduction
@@ -553,6 +554,7 @@
                 - Parameterized
                 - Copy Constructor (user-defined)
 
+
     2.4 Methods: Declaration, Invocation, Types: Getter & Setter
 
         -> Introduction
@@ -687,3 +689,141 @@
 
 
     2.5 Static and Final Keywords
+
+        -> Introduction
+            - Encapsulation ek OOPs concept hai jismein data aur methods ko ek single unit (class) ke andar band karke rakha jata hai.
+            - Java mein, encapsulation ke sath modifiers (static, final, private, public) ka use karke data security aur consistency maintain hoti hai.
+            - Isme static aur final keywords ka bahut bada role hai.
+
+        -> Static Keyword in Java
+
+            Definition
+                static ek keyword hai jo Java mein memory management ke liye use hota hai.
+                - Jab koi variable ya method static hota hai, to uska object banana zaroori nahi hota, kyunki wo class ke sath belong karta hai, object ke sath nahi.
+                - Static members ko class name ke through access kiya ja sakta hai.
+
+            Syntax
+                class ClassName {
+                    static dataType variableName;   // static variable
+
+                    static void methodName() {      // static method
+                        // code
+                    }
+                }
+
+            Rules
+                (1) static variables sabhi objects ke liye common hote hain.
+                (2) static methods sirf static data members ko directly access kar sakte hain.
+                (3) this aur super keyword ka use static methods ke andar nahi hota.
+
+            Real-Life Example of Static
+                Example: Bank Branch Code
+                - Har bank branch ka apna branch code hota hai jo sab employees share karte hain.
+                - Matlab ek hi value (static) sab objects ke liye common hai.
+
+                class BankEmployee {
+                    int empId;
+                    String empName;
+                    static String branchCode = "BR123"; // common for all employees
+
+                    BankEmployee(int id, String name) {
+                        empId = id;
+                        empName = name;
+                    }
+
+                    void display() {
+                        System.out.println(empId + " " + empName + " " + branchCode);
+                    }
+                }
+
+                public class StaticExample {
+                    public static void main(String[] args) {
+                        BankEmployee e1 = new BankEmployee(101, "Rahul");
+                        BankEmployee e2 = new BankEmployee(102, "Priya");
+
+                        e1.display();
+                        e2.display();
+                    }
+                }
+
+                Output:
+                    101 Rahul BR123
+                    102 Priya BR123
+
+        -> Final Keyword in Java
+        
+            Definition
+                final ek keyword hai jo Java mein constant value banane, method overriding rokne aur inheritance control karne ke liye use hota hai.
+
+            Uses of final
+                (1) Final Variable → Value ko constant banata hai, ek bar assign hone ke baad change nahi hoti.
+                (2) Final Method → Method ko override hone se bachata hai.
+                (3) Final Class → Class ko inherit hone se rokta hai.
+
+            Syntax
+                final dataType variableName = value;   // Final Variable
+
+                class ClassName {
+                    final void display() {             // Final Method
+                        // code
+                    }
+                }
+
+                final class Parent {                   // Final Class
+                    // code
+                }
+
+            Rules
+                (1) final variable ko sirf ek bar value di ja sakti hai.
+                (2) final method ko override nahi kiya ja sakta.
+                (3) final class ko extend nahi kiya ja sakta.
+
+            Real-Life Example of Final
+
+                Example: Aadhaar Number
+                Aadhaar number ek bar ban gaya to change nahi hota, yani constant hai.
+
+                    class Citizen {
+                        final String aadhaarNumber; // constant for every person
+
+                        Citizen(String aadhaar) {
+                            aadhaarNumber = aadhaar;
+                        }
+
+                        void display() {
+                            System.out.println("Aadhaar Number: " + aadhaarNumber);
+                        }
+                    }
+
+                    public class FinalExample {
+                        public static void main(String[] args) {
+                            Citizen c1 = new Citizen("1234-5678-9012");
+                            c1.display();
+                        }
+                    }
+
+                Output:
+                    Aadhaar Number: 1234-5678-9012
+
+        -> Difference Between Static and Final
+
+            | Feature          | Static Keyword                | Final Keyword                                         |
+            | ---------------- | ----------------------------- | ----------------------------------------------------- |
+            | **Meaning**      | Belongs to Class (not object) | Makes constant / prevents change                      |
+            | **Applied To**   | Variables, Methods, Blocks    | Variables, Methods, Classes                           |
+            | **Inheritance**  | Can be inherited              | Final methods & classes can’t be overridden/inherited |
+            | **Modification** | Value can change              | Value can’t change                                    |
+            | **Example**      | Branch Code in Bank           | Aadhaar Number                                        |
+
+        -> Real-Life Analogy
+
+            - Static → Common Parking Area
+                Har flat ka alag owner hota hai, but parking area sab ke liye common hota hai (static).
+            - Final → House Number
+                Ek bar house number assign ho gaya to wo kabhi change nahi hota (final).
+
+        -> Conclusion
+
+            - Static keyword memory ko optimize karta hai aur common properties ke liye use hota hai.
+            - Final keyword immutability (constant behavior) aur restriction (no override, no inheritance) ke liye use hota hai.
+            - Dono keywords encapsulation aur secure programming ko aur efficient aur reliable banate hain.
