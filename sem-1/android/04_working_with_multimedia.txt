@@ -1,0 +1,429 @@
+4. Working with Multimedia
+
+
+    4.1 Styles and Themes, UI Design with Movable Items
+
+        -> Styles in Android
+
+            Definition
+                - Style ek XML resource hota hai jo UI elements ke attributes (jaise color, text size, font, padding, margin) ko define karta hai.
+                - Isse hum UI consistency aur reusability achieve karte hain.
+
+            Syntax
+                res/values/styles.xml
+                <resources>
+                    <style name="CustomTextStyle">
+                        <item name="android:textColor">#FF5722</item>
+                        <item name="android:textSize">20sp</item>
+                        <item name="android:fontFamily">sans-serif-medium</item>
+                    </style>
+                </resources>
+
+            Usage in Layout
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello Bunty!"
+                style="@style/CustomTextStyle" />
+
+            Benefit: Reusability, maintainability, ek bar define karke multiple jagah apply karna.
+
+        -> Themes in Android
+
+            Definition
+                - Theme ek collection of styles hai jo poore Activity/ Application par apply hota hai.
+                - Ye mainly colors, fonts, action bar, background define karta hai.
+
+            Syntax (themes.xml) -
+                <resources xmlns:tools="http://schemas.android.com/tools">
+                    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+                        <item name="colorPrimary">#4CAF50</item>
+                        <item name="colorSecondary">#FF9800</item>
+                        <item name="android:statusBarColor">#388E3C</item>
+                    </style>
+                </resources>
+
+            Apply Theme in AndroidManifest.xml -
+                <application
+                    android:theme="@style/AppTheme">
+                </application>
+
+            Benefit: Ek hi theme se poore app ka look and feel maintain hota hai.
+
+        -> UI Design with Movable Items
+
+            Definition
+                - Movable items ka matlab hai ki user UI elements ko drag aur reposition kar sake.
+                - Ye interactive aur user-friendly design ke liye use hota hai.
+
+            Example (Kotlin + MotionEvent)
+
+                activity_main.xml -
+                <RelativeLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/movableImage"
+                        android:src="@drawable/ic_launcher_foreground"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"/>
+                </RelativeLayout>
+
+                MainActivity.kt -
+                package com.example.movableitems
+
+                import android.os.Bundle
+                import android.view.MotionEvent
+                import android.widget.ImageView
+                import androidx.appcompat.app.AppCompatActivity
+
+                class MainActivity : AppCompatActivity() {
+                    override fun onCreate(savedInstanceState: Bundle?) {
+                        super.onCreate(savedInstanceState)
+                        setContentView(R.layout.activity_main)
+
+                        val image = findViewById<ImageView>(R.id.movableImage)
+
+                        image.setOnTouchListener { v, event ->
+                            when (event.action) {
+                                MotionEvent.ACTION_MOVE -> {
+                                    v.x = event.rawX - v.width / 2
+                                    v.y = event.rawY - v.height / 2
+                                }
+                            }
+                            true
+                        }
+                    }
+                }
+
+                Output: User apne finger ke through ImageView ko drag karke move kar sakta hai.
+
+        -> Real-Life Examples
+
+            - Styles & Themes → WhatsApp ka Dark Mode aur Light Mode.
+            - Movable Items → Canva/Photo Editor jisme user text ya images ko drag karke set karta hai.
+
+        -> Conclusion
+
+            - Styles: Individual UI components ke liye design consistency.
+            - Themes: Application-wide design uniformity.
+            - Movable UI Items: Interactive, user-friendly aur engaging interface.
+
+
+    4.2 2D Animation & Property Animation
+
+        -> 2D Animation in Android
+
+            Definition
+                - 2D animation ka matlab hai UI elements (views) ko rotate, scale, translate ya fade karna 2D plane par.
+                - Android me Tween Animation aur Frame Animation dono support hoti hain.
+
+            Types of 2D Animations
+                (1) Translate Animation → Move object from one place to another.
+                (2) Scale Animation → Increase/decrease size.
+                (3) Rotate Animation → Rotate around pivot point.
+                (4) Alpha Animation → Fade in / fade out.
+
+            Example (XML based 2D Animation)
+                res/anim/move.xml -
+                    <translate xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:fromXDelta="0%"
+                    android:toXDelta="75%"
+                    android:duration="1000"/>
+
+                MainActivity.kt -
+                    val image = findViewById<ImageView>(R.id.myImage)
+                    val animation = AnimationUtils.loadAnimation(this, R.anim.move)
+                    image.startAnimation(animation)
+
+                Output: Image left se right side move karega.
+
+            Real-Life Example
+                - Splash screen logo ka rotate aur fade effect.
+                - Notification bell icon ka shake animation.
+
+        -> Property Animation in Android
+
+            Definition
+                - Property Animation (ObjectAnimator + AnimatorSet) ek powerful animation system hai jo directly object ki property values ko animate karta hai.
+                - Ye 3D animations aur smooth transitions ke liye bhi use hota hai.
+
+            Example (Kotlin – ObjectAnimator)
+                val image = findViewById<ImageView>(R.id.myImage)
+
+                // Rotate Animation
+                val rotate = ObjectAnimator.ofFloat(image, "rotation", 0f, 360f)
+                rotate.duration = 1000
+
+                // Scale Animation
+                val scaleX = ObjectAnimator.ofFloat(image, "scaleX", 1f, 2f)
+                val scaleY = ObjectAnimator.ofFloat(image, "scaleY", 1f, 2f)
+                scaleX.duration = 1000
+                scaleY.duration = 1000
+
+                // Run Together
+                val animatorSet = AnimatorSet()
+                animatorSet.playTogether(rotate, scaleX, scaleY)
+                animatorSet.start()
+
+                Output: Image ek sath rotate aur zoom hoga.
+
+            Features of Property Animation
+                - More powerful than 2D (tween) animation.
+                - Directly object ki real properties ko change karta hai (e.g. x, y, alpha, rotation).
+                - Support for chaining animations with AnimatorSet.
+
+            Real-Life Example
+                - Music Player → Play button ka bounce effect.
+                - E-commerce App → Add-to-cart animation (product image shrink into cart icon).
+
+        -> Difference Between 2D Animation and Property Animation
+
+            | Feature         | 2D Animation (Tween)                              | Property Animation                            |
+            | --------------- | ------------------------------------------------- | --------------------------------------------- |
+            | **Definition**  | Only visual effect, original position remain same | Changes actual object properties              |
+            | **API**         | `AnimationUtils`, XML (`res/anim`)                | `ObjectAnimator`, `AnimatorSet`               |
+            | **Limitations** | Only position/scale/rotation/alpha                | Any property of object                        |
+            | **Use Case**    | Simple effects (fade, move)                       | Complex effects (rotation + scale + chaining) |
+
+        -> Conclusion
+
+            - 2D Animation → Simple, lightweight, mostly for UI effects.
+            - Property Animation → Powerful, real property manipulation, modern apps me preferred.
+
+
+    4.3 Recording Audio, Camera: Taking a Picture, Recording a Video
+
+        -> Recording Audio
+
+            Definition
+                - Android me audio recording ke liye MediaRecorder class ka use hota hai.
+                - User microphone ke through voice record kar sakta hai aur usko .3gp ya .mp4 format me save kiya ja sakta hai.
+
+            Steps
+                (1) Permission add karna → RECORD_AUDIO, WRITE_EXTERNAL_STORAGE.
+                (2) MediaRecorder object create karna.
+                (3) Source set karna → setAudioSource(MediaRecorder.AudioSource.MIC).
+                (4) Format set karna → .3gp ya .mp4.
+                (5) Recorder start/stop karna.
+
+            Permissions (AndroidManifest.xml) -
+                <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+                <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+            Example (Kotlin – Record Audio)
+                lateinit var recorder: MediaRecorder
+                val fileName = "${externalCacheDir?.absolutePath}/recording.3gp"
+
+                fun startRecording() {
+                    recorder = MediaRecorder().apply {
+                        setAudioSource(MediaRecorder.AudioSource.MIC)
+                        setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+                        setOutputFile(fileName)
+                        setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+                        prepare()
+                        start()
+                    }
+                }
+
+                fun stopRecording() {
+                    recorder.apply {
+                        stop()
+                        release()
+                    }
+                }
+
+                Output: User ki voice record hoke phone storage me save ho jayegi.
+
+        -> Camera: Taking a Picture
+
+            Definition
+                - Android me camera se photo capture karne ke liye Intent(MediaStore.ACTION_IMAGE_CAPTURE) use hota hai.
+                - Captured image ko onActivityResult me handle karke ImageView me show kar sakte hain.
+
+            Permission
+                <uses-permission android:name="android.permission.CAMERA"/>
+
+            Example (Kotlin – Take Picture)
+                val REQUEST_IMAGE_CAPTURE = 1
+
+                fun openCamera() {
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                }
+
+                override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+                    super.onActivityResult(requestCode, resultCode, data)
+                    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                        val imageBitmap = data?.extras?.get("data") as Bitmap
+                        findViewById<ImageView>(R.id.imageView).setImageBitmap(imageBitmap)
+                    }
+                }
+
+                Output: Camera open hoga → photo click karne ke baad image screen par show hogi.
+
+            Real-Life Example
+                - WhatsApp → Photo capture and send.
+                - Paytm → KYC document photo click.
+
+        -> Recording a Video
+
+            Definition
+                - Android me video record karne ke liye Intent(MediaStore.ACTION_VIDEO_CAPTURE) use hota hai.
+                - Recorded video ko phone gallery ya custom path me store kiya ja sakta hai.
+
+            Permission
+                <uses-permission android:name="android.permission.CAMERA"/>
+                <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+            Example (Kotlin – Record Video)
+                val REQUEST_VIDEO_CAPTURE = 2
+
+                fun recordVideo() {
+                    val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                    startActivityForResult(intent, REQUEST_VIDEO_CAPTURE)
+                }
+
+                override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+                    super.onActivityResult(requestCode, resultCode, data)
+                    if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+                        val videoUri: Uri? = data?.data
+                        findViewById<VideoView>(R.id.videoView).apply {
+                            setVideoURI(videoUri)
+                            start()
+                        }
+                    }
+                }
+
+                Output: Camera open hoga → video record hoke gallery me save hogi → app ke VideoView me play hogi.
+
+        -> Real-Life Examples
+
+            - Audio Recording → Voice Notes (WhatsApp, Telegram).
+            - Taking Picture → Profile Picture set karna (Instagram, Facebook).
+            - Recording Video → Reels / Status upload (Instagram, WhatsApp).
+
+        -> Conclusion
+
+            - Recording Audio → MediaRecorder ke through mic input save hota hai.
+            - Taking Picture → ACTION_IMAGE_CAPTURE intent ke through photo capture hoti hai.
+            - Recording Video → ACTION_VIDEO_CAPTURE intent ke through video record hoti hai.
+
+
+    4.4 Menus and Action Bars in Android
+
+        -> Menu in Android
+
+            Definition
+                - Menu ek UI component hai jo user ko app ke actions (settings, search, logout etc.) dikhata hai.
+                - Android me menu ko define karne ke liye XML file banate hain (res/menu/).
+
+            Types of Menus
+                (1) Options Menu → Mostly Action Bar me dikhata hai (3-dot icon).
+                (2) Context Menu → Long press par open hota hai.
+                (3) Popup Menu → Ek item ke sath attach hota hai (dropdown style).
+
+            Example (Options Menu – XML + Kotlin)
+                menu/main_menu.xml -
+                    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+                        <item
+                            android:id="@+id/action_settings"
+                            android:title="Settings"
+                            android:icon="@android:drawable/ic_menu_preferences"
+                            android:showAsAction="ifRoom"/>
+
+                        <item
+                            android:id="@+id/action_logout"
+                            android:title="Logout"
+                            android:icon="@android:drawable/ic_lock_power_off"
+                            android:showAsAction="never"/>
+                    </menu>
+
+                MainActivity.kt -
+                    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+                        menuInflater.inflate(R.menu.main_menu, menu)
+                        return true
+                    }
+
+                    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                        return when (item.itemId) {
+                            R.id.action_settings -> {
+                                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
+                                true
+                            }
+                            R.id.action_logout -> {
+                                Toast.makeText(this, "Logout Clicked", Toast.LENGTH_SHORT).show()
+                                true
+                            }
+                            else -> super.onOptionsItemSelected(item)
+                        }
+                    }
+
+                    Output: App ke Action Bar me Settings aur Logout menu dikhega.
+
+        -> Action Bar in Android
+
+            Definition
+                - Action Bar ek toolbar hota hai jo app ke top par hota hai.
+                - Isme app title, navigation, menus aur actions (icons) show hote hain.
+                - Modern Android me ise Toolbar ya AppBar ke naam se bhi use kiya jata hai.
+
+            Features of Action Bar
+                (1) App Identity (title, logo).
+                (2) Navigation Support (back button, tabs, drawer).
+                (3) Action Items (search, share, settings).
+                (4) Overflow Menu (3-dot options).
+
+            Example (Toolbar as Action Bar)
+                activity_main.xml -
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/myToolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/colorPrimary"
+                            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+                    </LinearLayout>
+
+                MainActivity.kt -
+                    class MainActivity : AppCompatActivity() {
+                        override fun onCreate(savedInstanceState: Bundle?) {
+                            super.onCreate(savedInstanceState)
+                            setContentView(R.layout.activity_main)
+
+                            val toolbar: Toolbar = findViewById(R.id.myToolbar)
+                            setSupportActionBar(toolbar)
+
+                            supportActionBar?.title = "My App"
+                            supportActionBar?.setDisplayHomeAsUpEnabled(true) // back arrow
+                        }
+                    }
+
+                Output: Top me custom toolbar dikhega with title and back button.
+
+        -> Real-Life Examples
+
+            - Menus → WhatsApp me Settings / New Group / Logout.
+            - Action Bar → YouTube ka top bar with Search + Profile + Logo.
+
+        -> Difference Between Menus and Action Bar
+
+            | Feature        | Menu                    | Action Bar                         |
+            | -------------- | ----------------------- | ---------------------------------- |
+            | **Definition** | List of user actions    | Toolbar at top showing app actions |
+            | **Position**   | Popup / overflow        | Always top of the screen           |
+            | **Types**      | Options, Context, Popup | Toolbar, AppBar                    |
+            | **Example**    | Logout, Settings        | Title, Back Button, Search Icon    |
+
+        -> Conclusion
+
+            - Menus → user actions ko organize karte hain (Options, Context, Popup).
+            - Action Bar → app ka identity + navigation + actions show karta hai.
+            - Dono ek sath app ko interactive aur user-friendly banate hain.
