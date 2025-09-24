@@ -70,10 +70,308 @@
                 - ReactDOM.createRoot() → root node define karta hai.
                 - root.render() → element ko screen par display karta hai.
 
+
     2.2 Components and Props Types: Built-in and Custom Property Validation
+
+        -> Components Recap
+
+            React mein Components ek reusable block hote hain jo UI ko divide karte hain.
+            Do types ke components hote hain:
+                - Functional Components (hooks ke sath)
+                - Class Components (old way, ab kam use hote hain)
+
+        -> Props (Properties)
+
+            props ka matlab hota hai properties. Ye ek object ki tarah component ke andar aate hain.
+                - Data ko parent se child component mein pass karne ke liye props use hote hain.
+                - Props read-only hote hain (matlab child change nahi kar sakta).
+
+            Syntax Example:
+                // Parent Component
+                function App() {
+                return <Student name="Bunty" age={22} city="Indore" />;
+                }
+
+                // Child Component
+                function Student(props) {
+                return (
+                    <div>
+                    <h2>My name is {props.name}</h2>
+                    <p>Age: {props.age}</p>
+                    <p>City: {props.city}</p>
+                    </div>
+                );
+                }
+
+        -> Props Validation (Why Needed?)
+
+            Kabhi-kabhi galti se galat type ka data pass ho jata hai.
+            Example: age mein number ki jagah string pass kar diya.
+                Isko avoid karne ke liye PropTypes ka use hota hai.
+
+        -> Built-in PropTypes
+        
+            React mein ek library prop-types hoti hai jisme built-in validators hote hain.
+            Common Built-in Validators:
+                - PropTypes.string → string check karega
+                - PropTypes.number → number check karega
+                - PropTypes.bool → true/false check karega
+                - PropTypes.array → array check karega
+                - PropTypes.object → object check karega
+                - PropTypes.func → function check karega
+                - PropTypes.element → React element check karega
+                - PropTypes.node → kuch bhi renderable (string, element, number)
+
+            Syntax Example with Built-in PropTypes:
+                import PropTypes from "prop-types";
+
+                function Student({ name, age, city }) {
+                return (
+                    <div>
+                    <h2>My name is {name}</h2>
+                    <p>Age: {age}</p>
+                    <p>City: {city}</p>
+                    </div>
+                );
+                }
+
+                // Built-in Validation
+                Student.propTypes = {
+                name: PropTypes.string.isRequired,  // must be string
+                age: PropTypes.number,              // must be number
+                city: PropTypes.string              // must be string
+                };
+
+            Agar galat type pass kiya to console mein warning milega (production mein nahi, sirf development time pe).
+
+        -> Custom Prop Validation
+
+            Kabhi requirement aisi hoti hai jo built-in se cover nahi hoti.
+                Us case mein custom validator function banate hain.
+
+            Syntax Example with Custom Validation:
+                import PropTypes from "prop-types";
+
+                function Employee({ name, salary }) {
+                return (
+                    <div>
+                    <h2>{name}</h2>
+                    <p>Salary: {salary}</p>
+                    </div>
+                );
+                }
+
+                // Custom Prop Validation
+                Employee.propTypes = {
+                name: PropTypes.string.isRequired,
+                salary: function (props, propName, componentName) {
+                    if (props[propName] < 10000) {
+                    return new Error(
+                        `${componentName} - Invalid salary! Salary should be at least 10000.`
+                    );
+                    }
+                }
+                };
+
+            Agar salary={5000} pass karoge, console warning aayegi:
+            Employee - Invalid salary! Salary should be at least 10000.
+
+        -> Real-Life Example
+
+            Socho tum ek Online Auction Website bana rahe ho.
+                - Seller ne product add kiya.
+                - Product ke props: title, price, category, isAvailable.
+
+            Ab agar price number na ho aur string pass kar diya "five thousand", to system crash ho sakta hai.
+                Isliye PropTypes lagana zaroori hai, taki data validation ho jaye.
+
+            Example Code:
+                function Product({ title, price, category, isAvailable }) {
+                return (
+                    <div>
+                    <h3>{title}</h3>
+                    <p>Price: ₹{price}</p>
+                    <p>Category: {category}</p>
+                    <p>{isAvailable ? "Available" : "Out of Stock"}</p>
+                    </div>
+                );
+                }
+
+                Product.propTypes = {
+                title: PropTypes.string.isRequired,
+                price: PropTypes.number.isRequired,
+                category: PropTypes.string,
+                isAvailable: PropTypes.bool
+                };
+
+        -> Benefits of Prop Validation
+
+            (1) Galat data pass hone se bachata hai.
+            (2) Large projects mein consistency maintain hoti hai.
+            (3) Debugging easy hota hai (console warnings milte hain).
+            (4) Documentation ka kaam karta hai (pata chal jata hai component kya expect karta hai).
+
 
     2.3 Class Components and Functional Components
 
+        -> Introduction
+
+            React mein UI banane ke liye components ka use hota hai. Components do type ke hote hain:
+                (1) Class Components
+                (2) Functional Components
+
+        -> Class Components
+
+            - Purane React versions mein zyada use hote the.
+            - ES6 classes ka use karte hain.
+            - render() method mandatory hota hai.
+            - State aur lifecycle methods directly support karte hain.
+
+            Syntax:
+                import React, { Component } from "react";
+
+                class Welcome extends Component {
+                render() {
+                    return <h2>Hello, {this.props.name}</h2>;
+                }
+                }
+
+        -> Functional Components
+
+            - Ye ek normal JavaScript function hote hain jo JSX return karte hain.
+            - Simple aur lightweight hote hain.
+            - React hooks (useState, useEffect) ke baad ye most popular ban gaye.
+
+            Syntax:
+                function Welcome(props) {
+                return <h2>Hello, {props.name}</h2>;
+                }
+
+        -> Real-life Example
+
+            Socho tumhari Auction Website mein ek UserProfile component banana hai.
+                - Agar old version hai to Class Component se banaoge.
+                - Agar new version hai to Functional Component + Hooks se banaoge.
+
+        -> Conclusion
+
+            - Class Components → Complex, heavy but powerful.
+            - Functional Components → Simple, fast, and modern approach.
+                Aaj ke time pe functional components + hooks use karna best practice hai.
+
+
     2.4 CSS in JS and Styled Components
 
+        1. Introduction
+
+            React mein styling karne ke multiple tarike hote hain. Normal CSS ke alawa ek approach hai CSS-in-JS jisme CSS ko JavaScript ke andar likhte hain.
+            Sabse popular library: styled-components.
+
+        2. CSS-in-JS
+
+            - JavaScript ke andar CSS likhne ka tarika.
+            - Isse styling component-specific ho jati hai (global conflict nahi hota).
+
+            Syntax:
+                const headingStyle = {
+                    color: "blue",
+                    fontSize: "24px"
+                };
+
+                function App() {
+                    return <h1 style={headingStyle}>Hello CSS-in-JS</h1>;
+                }
+
+        3. Styled Components
+
+            - Ye ek library hai (install karni padti hai: npm install styled-components).
+            - CSS ko ek component ke tarike se likhne dete hain.
+
+            Syntax:
+                import styled from "styled-components";
+
+                const Button = styled.button`
+                background: teal;
+                color: white;
+                padding: 10px;
+                border-radius: 6px;
+                &:hover {
+                    background: darkcyan;
+                }
+                `;
+
+                function App() {
+                return <Button>Click Me</Button>;
+                }
+
+        4. Real-life Example
+
+            Socho tumhari Auction Website mein "Bid Now" button hai.
+                - Agar tum styled-components use karoge to directly ek styled button bana loge jo reusable hoga.
+
+        5. Conclusion
+
+            - CSS-in-JS → Simple inline styling.
+            - Styled Components → Reusable, powerful, scoped CSS.
+                Large projects mein styled-components maintain karna easy hota hai.
+
+
     2.5 React Routing
+
+        -> Introduction
+
+            React ek Single Page Application (SPA) banata hai.
+            Isme multiple pages navigate karne ke liye use hota hai React Router.
+
+        -> React Router
+
+            - Install: npm install react-router-dom
+            - Components:
+                <BrowserRouter> → main wrapper
+                <Routes> → sabhi routes define karne ke liye
+                <Route> → ek ek path set karne ke liye
+                <Link> → navigation ke liye
+
+        -> Syntax Example
+
+            import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+            function Home() {
+                return <h2>Home Page</h2>;
+            }
+
+            function About() {
+                return <h2>About Page</h2>;
+            }
+
+            function App() {
+                return (
+                    <BrowserRouter>
+                    <nav>
+                        <Link to="/">Home</Link> | 
+                        <Link to="/about">About</Link>
+                    </nav>
+
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                    </Routes>
+                    </BrowserRouter>
+                );
+            }
+
+        -> Real-life Example
+
+            Auction Website mein pages honge:
+                - /dashboard (user dashboard)
+                - /auction/:id (specific auction details)
+                - /profile (user profile)
+
+            React Router se ye sab pages easily navigate hote hain bina full page reload ke.
+
+        -> Conclusion
+
+            React Router ek SPA ko multiple pages jaisa feel karata hai.
+                - Fast navigation
+                - No reload
+                - Dynamic routing support
