@@ -1,181 +1,19 @@
-1 Relational Database Design
+1. Relational Database Design
 
 
     1.1 E.F. Codd’s Rule
-        Dr. Edgar F. Codd (father of relational databases) proposed 12 rules (plus Rule 0) in 1985. These rules act as a guideline to check whether a database system is truly relational.
 
-        Rule 0: Foundation Rule
-            All data must be represented in tables (relations) using rows and columns.
 
-            Example:
-                CREATE TABLE students (
-                    id INT PRIMARY KEY,
-                    name VARCHAR(50),
-                    marks INT
-                );
+    1.2 Functional dependency
 
-            Here, all information (students’ data) is stored in a table.
 
-        Rule 1: Information Rule
-            Each data item must be accessible by table name, primary key, and column name.
+    1.3 Anomalies in database design: Redundancy, Insertion, Updation and Deletion anomalies
 
-            Example:
-                SELECT name FROM students WHERE id = 101;
 
-            Accessing data via table (students), primary key (id), and column (name).
+    1.4 Decomposition of Relations, and Lossy and Lossless Join
 
-        Rule 2: Guaranteed Access Rule
-            Null values (missing/unknown) must be treated in a consistent way.
 
-            Example:
-                INSERT INTO students (id, name, marks) VALUES (102, 'Rahul', NULL);
+    1.5 Normalization: First Normal Form, Second Normal Form, Third Normal Form
 
-            Accessing data via table (students), primary key (id), and column (name).
 
-        Rule 3: Systematic Treatment of NULL
-            Null values (missing/unknown) must be treated in a consistent way.
-
-            Example:
-                INSERT INTO students (id, name, marks) VALUES (102, 'Rahul', NULL);
-
-            Here, marks is unknown → stored as NULL.
-
-        Rule 4: Dynamic Online Catalog (Data Dictionary)
-            The database must store metadata (schema information) as tables, accessible via SQL.
-
-            Example (MySQL provides INFORMATION_SCHEMA):
-                SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'college';
-
-        Rule 5: Comprehensive Data Sub-Language Rule
-            The system must support a single, powerful language for data definition, manipulation, security, and transaction.
-
-            Example (SQL in MySQL does all):
-                -- DDL
-                CREATE TABLE course (id INT, name VARCHAR(50));
-
-                -- DML
-                INSERT INTO course VALUES (1, 'DBMS');
-
-                -- DCL
-                GRANT SELECT ON course TO 'vinit'@'localhost';
-
-                -- TCL
-                COMMIT;
-
-        Rule 6: View Updating 
-            All views (virtual tables created with SELECT) must be updatable if they represent updatable base tables.
-
-            Example:
-                CREATE VIEW high_scorers AS
-                SELECT name, marks FROM students WHERE marks > 70;
-
-                -- Update via view
-                UPDATE high_scorers SET marks = 5 WHER9E name = 'Rahul';
-
-        Rule 7: High-Level Insert, Update, Delete
-            Operations must work on sets of rows, not just one record at a time.
-
-            Example:
-                -- Increase all students’ marks by 5
-                UPDATE students SET marks = marks + 5;
-
-        Rule 8: Physical Data Independence
-            Changes in physical storage (like file structure) must not affect application queries.
-
-            Example:
-                Whether MySQL stores the students table in InnoDB or MyISAM, your query remains:
-
-                SELECT * FROM students;
-
-        Rule 9: Logical Data 
-            Changes in logical schema (adding/removing columns) should not affect existing queries.
-
-            Example:
-                If we add a column:
-                    ALTER TABLE students ADD email VARCHAR(100);
-
-                Old queries like:
-                    SELECT name, marks FROM students;
-
-                still work fine.
-
-        Rule 10: Integrity Independence
-            Constraints should be stored in the database (not only in the application).
-
-            Example:
-                CREATE TABLE students (
-                    id INT PRIMARY KEY,
-                    name VARCHAR(50) NOT NULL,
-                    marks INT CHECK (marks >= 0 AND marks <= 100)
-                );
-
-        Rule 11: Distribution Independence
-            The database should work even if it’s distributed across multiple locations.
-
-            Example:
-                MySQL supports replication & sharding (databases across multiple servers), but your query stays the same:
-
-                SELECT * FROM students;
-
-        Rule 12: Non-subversion 
-            If a low-level access method exists, it must not bypass security/integrity rules.
-
-            Example:
-                Even if you try LOAD DATA INFILE in MySQL, primary key & constraints are still enforced.
-                
-
-        Summary Table
-
-            | Rule No. | Name                      | MySQL Example                             |
-            | -------- | ------------------------- | ----------------------------------------- |
-            | Rule 0   | Foundation                | SQL only for DB ops                       |
-            | Rule 1   | Information               | All data in tables                        |
-            | Rule 2   | Guaranteed Access         | SELECT name FROM students WHERE id=101;   |
-            | Rule 3   | Null Handling             | INSERT ... NULL                           |
-            | Rule 4   | Dynamic Catalog           | INFORMATION_SCHEMA                        |
-            | Rule 5   | Comprehensive Language    | SQL covers DDL, DML, DCL, TCL             |
-            | Rule 6   | View Updating             | Update via VIEW                           |
-            | Rule 7   | Set-level Ops             | UPDATE students SET ...                   |
-            | Rule 8   | Physical Independence     | Storage engine doesn’t affect queries     |
-            | Rule 9   | Logical Independence      | Schema changes don’t break queries        |
-            | Rule 10  | Integrity Independence    | Constraints inside DB                     |
-            | Rule 11  | Distribution Independence | MySQL replication                         |
-            | Rule 12  | Non-subversion            | Constraints apply even in low-level ops   |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+    

@@ -1,0 +1,15 @@
+3. Triggers
+
+
+    3.1 Triggers and their usage
+
+
+    3.2 Trigger Activation
+
+
+    3.3 BEFORE and AFTER trigger
+
+
+    3.4 COMMIT, ROLLBACK, SAVEPOINT
+
+

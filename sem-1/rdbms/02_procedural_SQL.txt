@@ -1,0 +1,18 @@
+2. Procedural SQL
+
+
+    2.1 Compound statements and labels
+
+
+    2.2 Overview of Control and Iterative statements: IF, CASE, LEAVE, WHILE, LOOP
+
+
+    2.3 Cursors: OPEN, CLOSE and FETCH
+
+
+    2.4 User Defined Function: Need, RETURN statement
+
+
+    2.5 Stored Procedure: Need and usage
+
+
