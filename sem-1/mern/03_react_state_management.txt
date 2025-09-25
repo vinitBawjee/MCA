@@ -24,29 +24,29 @@
                 import React, { useState, useEffect } from "react";
 
                 function UserProfile() {
-                const [user, setUser] = useState(null); // initial state null
+                    const [user, setUser] = useState(null); // initial state null
 
-                useEffect(() => {
-                    // async function to fetch data
-                    async function fetchUser() {
-                    const response = await fetch("https://api.example.com/user/1");
-                    const data = await response.json();
-                    setUser(data); // state updated after async fetch
+                    useEffect(() => {
+                        // async function to fetch data
+                        async function fetchUser() {
+                            const response = await fetch("https://api.example.com/user/1");
+                            const data = await response.json();
+                            setUser(data); // state updated after async fetch
+                        }
+
+                        fetchUser();
+                    }, []); // empty dependency → runs once on mount
+
+                    if (!user) {
+                        return <p>Loading user data...</p>; // render while waiting
                     }
 
-                    fetchUser();
-                }, []); // empty dependency → runs once on mount
-
-                if (!user) {
-                    return <p>Loading user data...</p>; // render while waiting
-                }
-
-                return (
-                    <div>
-                    <h2>{user.name}</h2>
-                    <p>Email: {user.email}</p>
-                    </div>
-                );
+                    return (
+                        <div>
+                            <h2>{user.name}</h2>
+                            <p>Email: {user.email}</p>
+                        </div>
+                    );
                 }
 
                 export default UserProfile;
@@ -67,12 +67,12 @@
                     const [stats, setStats] = useState(null);
 
                     useEffect(() => {
-                    async function fetchStats() {
-                        const res = await fetch("/api/seller/stats");
-                        const data = await res.json();
-                        setStats(data);
-                    }
-                    fetchStats();
+                        async function fetchStats() {
+                            const res = await fetch("/api/seller/stats");
+                            const data = await res.json();
+                            setStats(data);
+                        }
+                        fetchStats();
                     }, []);
                 
                 - Jab tak data load ho raha hai, user ko "Loading..." message show kar sakte ho.
@@ -128,7 +128,12 @@
 
         -> useEffect
 
-            - useEffect ek hook hai jo side-effects handle karta hai, jaise:
+            - useEffect ek hook hai jo side                        async function fetchStats() {
+                            const res = await fetch("/api/seller/stats");
+                            const data = await res.json();
+                            setStats(data);
+                        }
+                        fetchStats();-effects handle karta hai, jaise:
                 - API calls
                 - DOM updates
                 - vent listeners

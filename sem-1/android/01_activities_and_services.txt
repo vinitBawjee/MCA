@@ -4,6 +4,7 @@
     1.1 Overview of Mobile Technologies, Mobile Platform Features, Architecture, Versions, and Development Tools
 
         -> Overview of Mobile Technologies
+
             Mobile technology ek rapidly growing field hai jisme smartphone, tablet, wearables aur IoT devices included hote hain.
             Ye technologies mainly wireless communication (4G/5G, Wi-Fi, Bluetooth, NFC) aur mobile applications ke around hoti hain.
 
@@ -12,6 +13,7 @@
                 - WhatsApp: instant messaging via internet.
 
         -> Mobile Platform Features
+
             Har mobile OS (Android, iOS, Windows, etc.) kuch features provide karta hai:
 
                 (1) Touchscreen Interface – Gesture support (tap, swipe, pinch).
@@ -72,12 +74,14 @@
                 - Languages – Java, Kotlin.
                 - Emulator – Device testing.
 
-            Syntax (Simple Activity Example in Java):
-                public class MainActivity extends AppCompatActivity {
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        setContentView(R.layout.activity_main);
+            Syntax:
+                import android.os.Bundle
+                import androidx.appcompat.app.AppCompatActivity
+
+                class MainActivity : AppCompatActivity() {
+                    override fun onCreate(savedInstanceState: Bundle?) {
+                        super.onCreate(savedInstanceState)
+                        setContentView(R.layout.activity_main)
                     }
                 }
 
@@ -113,6 +117,7 @@
     1.2 Activity: Life Cycle, Intent: Communication with Multiple Screen and Built-In Application
 
         -> Activity in Android
+
             Definition:
                 Activity ek single screen with UI hoti hai Android app ke andar.
                 Har app ke andar multiple activities ho sakti hain (e.g., LoginActivity, DashboardActivity).
@@ -121,38 +126,45 @@
                 WhatsApp → Chat Screen ek activity hai, Status ek alag activity hai, Calls ek alag activity hai.
 
         -> Activity Life Cycle
+
             Activity ke 6 main callback methods hote hain jo system automatically call karta hai.
-
             Phases of Activity:
-                (1) onCreate() → Activity create hoti hai (UI load hota hai).
-                    @Override
-                    protected void onCreate(Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        setContentView(R.layout.activity_main);
-                    }
 
+                (1) onCreate() → Activity create hoti hai (UI load hota hai).
+                        override fun onCreate(savedInstanceState: Bundle?) {
+                            super.onCreate(savedInstanceState)
+                            setContentView(R.layout.activity_main)
+                        }
+    
                     Example: Jab app pehli baar open hota hai → UI load hota hai.
 
-                (2) onStart() → Activity visible hoti hai but interactive nahi.
+                (2) onStart() → Activity screen par visible hoti hai, lekin abhi user input (click, typing) lene ke liye fully ready nahi hoti.
+                    Socho app khulta hai aur tumhe screen dikhne lagti hai, but abhi interactive nahi.
 
-                (3) onResume() → Activity visible aur interactive ho jati hai.
+                (3) onResume() → Activity visible aur interactive ho jati hai (user ke touch/inputs ka response milta hai).
                     Example: Jab tum YouTube open karke video play karte ho.
 
-                (4) onPause() → Activity partially visible (dusra app open karte time).
+                (4) onPause() → Activity abhi bhi partially visible hoti hai, lekin foreground me koi dusra app/dialog aagaya hai.
+                    Example: YouTube pe video chal raha hai aur tumne ek notification tap kiya → video ruk jata hai, par screen ka thoda part abhi bhi dikhta hai.
 
                 (5) onStop() → Activity screen se remove hoti hai (background me chali jati hai).
+                    Example: Tumne Home button dabaya → app background me chala gaya.
 
                 (6) onDestroy() → Activity destroy ho jati hai (close ho jati hai).
+                    Example: Tum app ko close kar dete ho (recent apps se hata dete ho).
 
                 Real-life Example Flow:
                     WhatsApp → Chat screen open (onCreate → onStart → onResume).
                     Back button dabao → (onPause → onStop → onDestroy).
 
         -> Intent in Android
+
             Definition:
+
                 Intent ek messaging object hai jo ek activity se dusri activity ya built-in app ke saath communication karta hai.
 
             Types of Intent:
+
                 1. Explicit Intent → App ke andar hi ek activity se dusri activity call karne ke liye.
                 Example: LoginActivity → DashboardActivity.  
                     Intent i = new Intent(MainActivity.this, SecondActivity.class);
@@ -165,6 +177,7 @@
                     startActivity(callIntent);
 
         -> Communication with Multiple Screens
+
             Jab ek activity se dusri activity pe data bhejna ho to Intent + putExtra() + getExtra() ka use hota hai.
 
             Example (Pass Data from Activity A → Activity B):
@@ -207,6 +220,7 @@
     1.3 Fragment: Introduction, Need, Life Cycle, Creation and Interfragment Communication
 
         -> Introduction of Fragment
+
             Definition:
                 Fragment ek modular section of Activity hota hai jiska apna layout, life cycle aur behavior hota hai.
                 Fragment ko tum ek sub-activity ya reusable UI component samajh sakte ho.
@@ -228,18 +242,20 @@
                 - Mobile me sirf ek list show karna.
 
         -> Fragment Life Cycle
-            Fragment ka apna life cycle hota hai jo activity ke sath interact karta hai.
 
+            Fragment ka apna life cycle hota hai jo activity ke sath interact karta hai.
             Important Methods:
+
                 (1) onAttach() – Fragment activity se attach hota hai.
                 (2) onCreate() – Fragment create hota hai (non-UI logic).
                 (3) onCreateView() – Layout inflate hota hai (UI design).
-
-                    @Override
-                    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                        return inflater.inflate(R.layout.fragment_one, container, false);
+                    override fun onCreateView(
+                        inflater: LayoutInflater,
+                        container: ViewGroup?,
+                        savedInstanceState: Bundle?
+                    ): View? {
+                        return inflater.inflate(R.layout.fragment_one, container, false)
                     }
-
                 (4) onActivityCreated() – Activity aur fragment dono initialized.
                 (5) onStart() – Fragment visible hota hai.
                 (6) onResume() – Fragment user ke liye interactive hota hai.
@@ -263,12 +279,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-                (b) Dynamic Fragment (Java ke through)
+                (b) Dynamic Fragment
 
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        ft.add(R.id.fragment_container, new FragmentOne());
-                        ft.commit();
+                        val fm = supportFragmentManager
+                        val ft = fm.beginTransaction()
+                        ft.add(R.id.fragment_container, FragmentOne())
+                        ft.commit()
 
         -> Inter-fragment Communication
             Fragments directly ek dusre ke sath interact nahi karte, balki Activity ke through communicate karte hain.
