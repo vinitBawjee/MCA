@@ -3,17 +3,431 @@
 
     1.1 E.F. Codd’s Rule
 
+        -> Introduction
+
+            - E.F. Codd ko “Father of Relational Databases” kaha jaata hai.
+            - Unhone 12 rules diye the (actually 13 including Rule 0) jisse decide kiya jaa sake ki koi database Relational Database Management System (RDBMS) hai ya nahi.
+            - Ye rules ensure karte hain ki database properly structured, consistent, aur efficient ho.
+
+        -> Codd’s 12 Rules + Rule Zero
+
+            Rule 0: Foundation Rule
+                Ek system tabhi RDBMS hoga jab wo apne saare data ko relational capabilities (tables, rows, columns) ke through hi handle kare.
+
+                Real Life Example:
+                    MySQL, Oracle, PostgreSQL → sab data ko tables ke form me rakhte hain.
+
+            Rule 1: Information Rule
+                Saara data tables ke andar rows aur columns me store hona chahiye.
+
+                Syntax Example:
+                    CREATE TABLE Student (
+                        RollNo INT,
+                        Name VARCHAR(50),
+                        City VARCHAR(30)
+                    );
+
+                Real-Life Example:
+                    Student ki info table ke form me hogi, na ki file system ke raw format me.
+
+            Rule 2: Guaranteed Access Rule
+                Har data item ko uniquely access karna possible hona chahiye → Table Name + Primary Key + Column Name ke combination se.
+
+                Real-Life Example:
+                    Student (RollNo=101).Name → isse ek student ka name uniquely identify ho jaata hai. 
+
+            Rule 3: Systematic Treatment of Null Values
+                Null values ko properly handle karna chahiye → missing data, unknown data, ya not applicable ke liye.
+
+                Example:
+                    INSERT INTO Student (RollNo, Name, City) VALUES (102, 'Amit', NULL);
+
+                Real-Life Example:
+                    Agar City unknown hai, to NULL store kar sakte hain.
+
+            Rule 4: Dynamic Online Catalog
+                Database ka metadata (tables ka structure, schema info) bhi tables ke andar hi store hona chahiye.
+
+                Example:
+                    INFORMATION_SCHEMA.TABLES in MySQL me table structure stored hota hai.
+
+            Rule 5: Comprehensive Data Sublanguage Rule
+                Database ke liye ek comprehensive language honi chahiye (DDL, DML, DCL, TCL sab cover kare).
+                SQL is example of that.
+
+                Syntax:
+                    SELECT * FROM Student;      -- DML  
+                    CREATE TABLE Teacher (...); -- DDL  
+                    GRANT SELECT ON Student TO user1; -- DCL  
+
+            Rule 6: View Updating Rule
+                Jo bhi view (virtual table) banaye gaye hain, unhe update karna bhi possible hona chahiye (agar logically consistent ho).
+
+                Example:
+                    CREATE VIEW StudentView AS
+                    SELECT RollNo, Name FROM Student;
+
+                StudentView ke through data update kiya jaa sakta hai (agar possible ho).
+
+            Rule 7: High-Level Insert, Update, Delete
+                Single row ke alawa set of rows pe bhi operations possible hone chahiye.
+
+                Example:
+                    UPDATE Student SET City='Mumbai' WHERE City='Delhi';
+
+                Ek hi query me multiple rows update ho gayi.
+
+            Rule 8: Physical Data Independence
+                Database ke physical storage me changes hone par bhi user ke queries affect nahi hone chahiye.
+
+                Real-Life Example:
+                    File ka storage disk par change ho jaye, lekin SELECT * FROM Student; query same kaam kare.
+
+            Rule 9: Logical Data Independence
+                Schema (structure) me minor changes hone par bhi existing applications ko problem nahi aani chahiye.
+
+                Example:
+                    Agar Student table me ek new column Email add kar diya, to purane queries (SELECT Name FROM Student) still work karenge.
+
+            Rule 10: Integrity Independence
+                Integrity constraints (primary key, foreign key, check) ko database ke andar hi store aur enforce hona chahiye, na ki application code me.
+
+                Syntax:
+                    CREATE TABLE Student (
+                        RollNo INT PRIMARY KEY,
+                        Name VARCHAR(50),
+                        Age INT CHECK (Age > 5)
+                    );
+
+            Rule 11: Distribution Independence
+                Database distributed ho ya centralized, user ko fark nahi padna chahiye. Query ka result same hona chahiye.
+
+                Real-Life Example:
+                    Banking system distributed hai (branches alag cities me), fir bhi SELECT Balance FROM Account har jagah same tarike se kaam karta hai.
+
+            Rule 12: Non-Subversion Rule
+                Agar low-level access methods diye gaye hain, to wo relational system ke rules ko break nahi karne chahiye.
+
+                Real-Life Example:
+                    Agar koi user direct storage file access kare, to usse integrity ya constraints violate nahi karne chahiye.
+
+        -> Conclusion
+
+            - E.F. Codd ke rules ne relational model ke liye foundation provide kiya.
+            - In rules ki wajah se aaj ke databases (MySQL, Oracle, SQL Server, PostgreSQL) structured, consistent aur reliable hain.
+            - Exam me answer likhne ka short way → 13 rules with definitions, syntax + real life example.
+
 
     1.2 Functional dependency
+
+        -> Definition
+            - Functional Dependency (FD) ek constraint hota hai jo batata hai ki ek attribute (ya set of attributes) doosre attribute ko uniquely determine karta hai.
+            - Matlab agar attribute A ka value fix hai, to uske corresponding B ka value bhi fix hoga.
+
+            Notation:
+                A → B (A functionally determines B)
+
+        -> Need of Functional Dependency
+            - Database me data consistency maintain karne ke liye.
+            - Normalization process (1NF, 2NF, 3NF, BCNF) ka base concept FD hi hai.
+            - Helps in removing data redundancy aur anomalies (update, insert, delete).
+
+        -> Types of Functional Dependency
+
+            (a) Trivial Functional Dependency
+                Jab right-hand side left-hand side ka subset ho.
+                Example: {RollNo, Name} → Name
+
+            (b) Non-Trivial Functional Dependency
+                Jab right-hand side left-hand side ka subset na ho.
+                Example: RollNo → Name
+
+            (c) Fully Functional Dependency
+                Jab attribute poore composite key pe depend kare, na ki uske part pe.
+                Example: {RollNo, Subject} → Marks
+                (Marks depend karta hai dono RollNo aur Subject par).
+
+            (d) Partial Dependency
+                Jab attribute composite key ke sirf ek part pe depend kare.
+                Example: {RollNo, Subject} → Name
+                (Name sirf RollNo pe depend karta hai, Subject pe nahi).
+
+            (e) Transitive Dependency
+                Jab ek attribute indirectly doosre pe depend kare through ek third attribute.
+                Example: RollNo → DeptID and DeptID → DeptName ⇒ RollNo → DeptName
+            
+        -> Syntax / Representation Example (SQL Context)
+
+            Table: Student
+            | RollNo | Name  | DeptID | DeptName | Marks |
+            | ------ | ----- | ------ | -------- | ----- |
+            | 101    | Amit  | D1     | CS       | 90    |
+            | 102    | Rahul | D2     | IT       | 85    |
+            | 103    | Neha  | D1     | CS       | 95    |
+
+            Functional Dependencies:
+                (1) RollNo → Name, DeptID, Marks (RollNo uniquely identify karta hai Student).
+                (2) DeptID → DeptName (ek DeptID ka ek hi DeptName hoga).
+                (3) {RollNo, DeptID} → Marks (Marks student aur subject ke combo pe depend kar sakta hai).
+
+        -> Real-Life Examples
+
+            (1) Bank Database:
+                AccountNo → Balance, Branch
+                Matlab ek account number se balance aur branch fix ho jata hai.
+
+            (2) College Database:
+                StudentID → Name, Course
+                Har StudentID ka ek hi Name aur ek hi Course hoga.
+
+            (3) Company Database:
+                EmpID → EmpName, Salary, Dept
+                Employee ID se employee ki sari details uniquely identify ho jaati hain.
+
+        -> Role of Functional Dependency in Normalization
+
+            - 1NF: Repeating groups ko remove karta hai.
+            - 2NF: Partial dependency remove karta hai.
+            - 3NF: Transitive dependency remove karta hai.
+            - BCNF: Har FD me determinant candidate key hota hai.
+
+        -> Conclusion
+
+            - Functional Dependency ek fundamental concept hai jo data consistency aur normalization me use hota hai.
+            - Iske bina RDBMS design karna mushkil hai.
+            - Real life me FD ka use banking, college, hospital, e-commerce systems me hota hai jaha har attribute ka relation clearly define hota hai.
 
 
     1.3 Anomalies in database design: Redundancy, Insertion, Updation and Deletion anomalies
 
+        -> Introduction
+
+            - Jab database properly normalized nahi hota to anomalies (problems) aati hain.
+            - Ye anomalies data ko inconsistent aur redundant banati hain.
+            - Anomalies ko avoid karne ke liye Normalization (1NF, 2NF, 3NF, BCNF) use kiya jata hai.
+
+        -> Types of Anomalies
+
+            (a) Redundancy (Data Duplication)
+                Jab same data bar-bar store hota hai to storage waste aur inconsistency hoti hai.
+
+                Example Table (Unnormalized Student-Course Table):
+                | RollNo | Name  | Course | Dept |
+                | ------ | ----- | ------ | ---- |
+                | 101    | Amit  | DBMS   | CS   |
+                | 101    | Amit  | OOPS   | CS   |
+                | 102    | Rahul | DBMS   | CS   |
+
+                Problem:
+                    RollNo 101 (Amit) ka Name aur Dept bar-bar repeat ho raha hai.
+                    Agar Dept change karna ho (CS → IT), to multiple rows update karni padengi.
+
+            (b) Insertion Anomaly
+                Kuch information insert karni possible nahi hoti jab tak extra unwanted info na di jaye.
+
+                Example:
+                    Agar ek naya student admission le raha hai, par abhi usne koi Course select nahi kiya, to uski entry nahi kar paayenge (kyunki Course column compulsory hai).
+
+                Real-Life Example:
+                    Bank database me agar naya branch add karna hai lekin abhi koi customer nahi hai, to branch ka record insert karna mushkil ho jaata hai.
+
+            (c) Updation Anomaly
+                Jab ek hi data multiple jagah store hai aur update karte waqt sab jagah change nahi hota to inconsistency ho jaati hai.
+
+                Example:
+                    RollNo 101 (Amit) ka Dept agar "CS" se "IT" karna hai, to har row me change karna padega. Agar ek row miss ho gayi → data inconsistent.
+
+                Real-Life Example:
+                    Employee ka address multiple tables me stored hai. Agar ek jagah update hua aur dusri jagah nahi hua, to problem hogi.
+
+            (d) Deletion Anomaly
+                - Jab ek record delete karne se unwanted data loss ho jaata hai.
+
+                Example Table:
+                    | RollNo | Name | Course | Dept |
+                    | ------ | ---- | ------ | ---- |
+                    | 103    | Neha | DBMS   | CS   |
+
+                Agar Neha ka DBMS course delete karte hain (kyunki course band ho gaya), to uska personal info bhi delete ho jaata hai.
+
+                Real-Life Example:
+                    Agar ek hospital patient ke bill ko delete kar diya, to patient ka info bhi gayab ho jaata hai.
+
+        -> Summary Table
+
+            | **Anomaly** | **Problem**                                | **Example**                   |
+            | ----------- | ------------------------------------------ | ----------------------------- |
+            | Redundancy  | Data duplication, storage waste            | Same student details repeat   |
+            | Insertion   | Naya record insert nahi kar paana          | Student without course        |
+            | Updation    | Multiple copies update karne ki problem    | Dept change in many rows      |
+            | Deletion    | Ek record delete hone par useful data lost | Student info lost with course |
+
+        -> Solution
+
+            In anomalies ko solve karne ke liye Normalization use hota hai:
+                -1NF → Repeating groups hataata hai.
+                -2NF → Partial dependency remove karta hai.
+                -3NF → Transitive dependency remove karta hai.
+                -BCNF → Strong form of 3NF for better consistency.
+
+        -> Conclusion
+
+            - Database anomalies ka major reason hai poor database design.
+            - Redundancy, Insertion, Updation aur Deletion anomalies se data inconsistent aur unreliable ho jaata hai.
+            - Proper Normalization se ye problems solve ho jaati hain aur data reliable, consistent aur efficient banta hai.
+
 
     1.4 Decomposition of Relations, and Lossy and Lossless Join
+
+        -> Decomposition of Relations
+
+            Database design me Normalization ke process ke during, ek large relation ko chhote-chhote relations me todna padta hai.
+            Isko hi Decomposition bolte hain.
+
+            - Matlab: Ek relation ko chhoti relations me break karna without losing information.
+            - Purpose:
+                (1) Data redundancy remove karna
+                (2) Anomalies avoid karna
+                (3) Database ko efficiently organize karna
+
+        -> Types of Decomposition
+
+            Decomposition ke do main type hote hain:
+                (a) Lossy Decomposition (Information Lossy)
+                    - Jab ek relation ko chhote relations me todte waqt original relation ka data pura recover nahi hota
+                    - Matlab join karne par extra tuples ya missing tuples aa jate hain.
+                    - Ye undesirable hai.
+
+                    Example (Java syntax-like SQL example):
+                        -- Original relation
+                        Student(ID, Name, Course)
+
+                        -- Lossy decomposition
+                        R1 = Student(ID, Name)
+                        R2 = Student(Course)
+
+                        -- Jab R1 aur R2 ko join karenge:
+                        SELECT * FROM R1, R2;
+                        -- To bahut extra tuples generate ho jayenge jo original Student table me nahi the.
+
+                (b) Lossless Decomposition (Information Preserving)
+                    - Jab ek relation ko chhote relations me todte waqt original relation exactly recover ho jata hai
+                    - Matlab join karne par koi extra ya missing tuple nahi hota
+                    - Ye hi desirable condition hai.
+
+                    Example (Real-life):
+                        -- Original relation
+                        Employee(EmpID, Name, DeptID, DeptName)
+
+                        -- Lossless decomposition
+                        R1 = Employee(EmpID, Name, DeptID)
+                        R2 = Department(DeptID, DeptName)
+
+                        -- Jab R1 aur R2 ko join karenge DeptID pe:
+                        SELECT * FROM R1
+                        NATURAL JOIN R2;
+
+                        -- Result exactly original Employee table ke barabar aayega.
+
+        -> Real-life Example
+
+            Maan lo ek Hospital Database hai:
+                Relation: Patient(PatientID, Name, DoctorID, DoctorName)
+                    - Agar hum isko Lossy way me todte:
+                        - Patient1(PatientID, Name)
+                        - Patient2(DoctorID, DoctorName)
+                        - Jab join karenge to har patient ke saath har doctor combine ho jayega (wrong info).
+
+                    - Agar hum Lossless way me todte:
+                        - Patient(PatientID, Name, DoctorID)
+                        - Doctor(DoctorID, DoctorName)
+                        - Jab join karenge DoctorID pe to original data wapas mil jayega.
+
+        -> Conditions for Lossless Join
+
+            Ek decomposition tabhi Lossless hogi agar:
+                (1) Common attribute(s) ek relation me super key ka kaam kare.
+                (2) Join karne par no spurious tuples (extra/missing) generate na ho.
 
 
     1.5 Normalization: First Normal Form, Second Normal Form, Third Normal Form
 
+        -> Introduction to Normalization
 
-    
+            Normalization ek process hai jisme relational database ko aise design kiya jata hai ki:
+                (1) Redundancy kam ho
+                (2) Data anomalies avoid ho (Insertion, Deletion, Update problems)
+                (3) Data ko logically aur efficiently store kiya ja sake.
+
+            Normalization step-by-step hota hai – 1NF → 2NF → 3NF → BCNF …
+
+        -> First Normal Form (1NF)
+
+            Definition:
+            A relation 1NF me tab hota hai jab:
+                (1) Har attribute ke value atomic (indivisible) ho.
+                (2) Repeating groups/multivalued attributes na ho.
+
+            Example (Before 1NF):
+                Student(ID, Name, Subjects)
+                1, Raj, {Math, Science}
+                2, Neha, {English, Math}
+            Yahaan Subjects ek multivalued attribute hai.
+
+            After 1NF:
+                Student(ID, Name, Subject)
+                1, Raj, Math
+                1, Raj, Science
+                2, Neha, English
+                2, Neha, Math
+            Ab har row atomic hai.
+
+        -> Second Normal Form (2NF)
+
+            Definition:
+            Ek relation 2NF me tab hota hai jab:
+                (1) Relation already 1NF me ho
+                (2) No partial dependency ho (koi non-prime attribute sirf candidate key ke ek part pe depend na kare).
+
+            Example:
+            Enrollment(StudentID, CourseID, StudentName, CourseName)
+                - Candidate Key = {StudentID, CourseID}
+                - Problem:
+                    - StudentName sirf StudentID pe depend karta hai
+                    - CourseName sirf CourseID pe depend karta hai
+
+            After 2NF Decomposition:
+                Student(StudentID, StudentName)
+                Course(CourseID, CourseName)
+                Enrollment(StudentID, CourseID)
+
+            Ab partial dependency remove ho gayi.
+
+        -> Third Normal Form (3NF)
+
+            Definition:
+            Ek relation 3NF me tab hota hai jab:
+                (1) Relation already 2NF me ho
+                (2) No transitive dependency ho (Non-prime attribute dusre non-prime attribute pe depend na kare).
+
+            Example:
+            Employee(EmpID, EmpName, DeptID, DeptName)
+                - Candidate Key = EmpID
+                - Problem: DeptName depend karta hai DeptID pe, aur DeptID depend karta hai EmpID pe → transitive dependency
+
+            After 3NF Decomposition:
+                Employee(EmpID, EmpName, DeptID)
+                Department(DeptID, DeptName)
+
+            Ab koi transitive dependency nahi hai.
+
+        -> Real-life Example (School Database)
+
+            Maan lo ek school ka database hai:
+                Unnormalized Table:
+                Student(ID, Name, Subjects, Teacher)
+
+            - 1NF: Subjects ko atomic rows me tod diya
+            - 2NF: Student aur Subject ko separate relations me divide kiya
+            - 3NF: Teacher info ko Subject table se alag kiya
+
