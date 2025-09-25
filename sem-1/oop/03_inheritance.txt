@@ -1,0 +1,407 @@
+3. Inheritance
+
+
+    3.1 Need, Use case and Types
+
+        -> Inheritance ka Need (Zarurat)
+
+            - Code Reusability – ek baar likha hua code bar-bar use kiya jaa sakta hai.
+            - Readability aur Maintenance – program simple aur manageable hota hai.
+            - Avoid Redundancy – same logic baar-baar likhne ki zarurat nahi hoti.
+            - Extensibility – naye features add karna easy ho jaata hai.
+            - Polymorphism Support – inheritance ke bina overriding aur dynamic dispatch possible nahi hota.
+
+            Real Life Example:
+                Ek Car ek Vehicle ka hi type hoti hai. Vehicle ke common features (speed, wheels, fuel capacity) Car class me reuse ho jaate hain. Isse bar-bar likhne ki need nahi hoti.
+
+        -> Use Case of Inheritance
+
+            - Software Development me Reusability: Parent class ke functions ko child class me use karke development fast hota hai.
+            - Method Overriding (Runtime Polymorphism): Parent ke method ko child apne hisaab se modify kar sakta hai.
+            - Code Organization: bade projects me inheritance se relation clear hota hai (jaise Doctor is a Person, Teacher is a Person).
+            - Frameworks / Libraries: Java ke predefined classes (jaise Applet, Servlet, Thread) inheritance use karte hain.
+
+            Real Life Example:
+                Ek Banking Application me Account ek parent class hai. Usse SavingAccount, CurrentAccount classes inherit karti hain. Dono accounts ke liye kuch cheezein common hoti hain (accountNumber, balance), aur kuch alag hoti hain (interestRate for saving, overdraft for current).
+
+        -> Types of Inheritance in Java
+
+            Java supports:
+                - Single Inheritance
+                - Multilevel Inheritance
+                - Hierarchical Inheritance
+                - Hybrid (through interface)
+
+            Java does not support:
+                - Multiple Inheritance (through classes) – kyunki ambiguity (diamond problem) ho jaati hai. Lekin interfaces se multiple inheritance possible hai.
+
+            (a) Single Inheritance
+                Ek parent class aur ek child class.
+
+                Syntax:
+                    class Parent {
+                        void display() {
+                            System.out.println("This is Parent class");
+                        }
+                    }
+
+                    class Child extends Parent {
+                        void show() {
+                            System.out.println("This is Child class");
+                        }
+                    }
+
+                    public class SingleInheritanceDemo {
+                        public static void main(String[] args) {
+                            Child obj = new Child();
+                            obj.display(); // parent method
+                            obj.show();    // child method
+                        }
+                    }
+
+                Real-Life Example:
+                    Employee parent aur Manager child class.
+
+            (b) Multilevel Inheritance
+                Ek chain me inheritance. Parent → Child → GrandChild.
+
+                Syntax:
+                    class Vehicle {
+                        void run() { System.out.println("Vehicle is running"); }
+                    }
+
+                    class Car extends Vehicle {
+                        void wheels() { System.out.println("Car has 4 wheels"); }
+                    }
+
+                    class SportsCar extends Car {
+                        void speed() { System.out.println("SportsCar is very fast"); }
+                    }
+
+                    public class MultilevelDemo {
+                        public static void main(String[] args) {
+                            SportsCar sc = new SportsCar();
+                            sc.run();
+                            sc.wheels();
+                            sc.speed();
+                        }
+                    }
+
+                Real-Life Example:
+                    LivingBeing → Animal → Dog
+
+            (c) Hierarchical Inheritance
+                Ek parent aur usse multiple child classes.
+
+                Syntax:
+                    class Account {
+                        void accountType() { System.out.println("General Account"); }
+                    }
+
+                    class SavingAccount extends Account {
+                        void interest() { System.out.println("Saving Account has Interest"); }
+                    }
+
+                    class CurrentAccount extends Account {
+                        void overdraft() { System.out.println("Current Account has Overdraft Facility"); }
+                    }
+
+                    public class HierarchicalDemo {
+                        public static void main(String[] args) {
+                            SavingAccount sa = new SavingAccount();
+                            sa.accountType();
+                            sa.interest();
+
+                            CurrentAccount ca = new CurrentAccount();
+                            ca.accountType();
+                            ca.overdraft();
+                        }
+                    }
+
+                Real-Life Example:
+                    Ek Account class se SavingAccount aur CurrentAccount dono derive karte hain.
+
+            (d) Multiple Inheritance (via Interface)
+                Java class se multiple inheritance support nahi karta, lekin interface se possible hai.
+
+                Syntax:
+                    interface Printable {
+                        void print();
+                    }
+
+                    interface Showable {
+                        void show();
+                    }
+
+                    class Report implements Printable, Showable {
+                        public void print() { System.out.println("Printing Report..."); }
+                        public void show() { System.out.println("Showing Report..."); }
+                    }
+
+                    public class MultipleInheritanceDemo {
+                        public static void main(String[] args) {
+                            Report r = new Report();
+                            r.print();
+                            r.show();
+                        }
+                    }
+
+                Real-Life Example:
+                    Ek Printer interface aur ek Display interface dono ko ek Report class implement kar sakta hai.
+
+        -> Conclusion
+
+            Inheritance ek OOP ke core pillar hai jo code reuse, maintainability, aur extensibility provide karta hai. Real-world me har jagah iska use hota hai jaise banking systems, vehicle management, HR systems, aur libraries/frameworks.
+
+
+    3.2 Base Class: Accessibility of Properties & methods, Constructor calling approach
+
+        -> Base Class (Parent Class) kya hota hai?
+        
+            - Base class (ya parent class) wo class hoti hai jisme common properties (variables) aur methods define kiye jaate hain.
+            - Ye base class ki functionality ko child (derived) class inherit kar sakti hai.
+
+            Example:
+                Person ek base class hai jisme naam aur age rakha jaa sakta hai. Student aur Teacher classes usse inherit karke apne extra features add kar sakti hain.
+
+        -> Accessibility of Properties & Methods
+
+            Java me access modifiers decide karte hain ki base class ke members (properties aur methods) derived class me kaise accessible honge.
+
+            (a) private
+                - Sirf base class ke andar accessible hote hain.
+                - Child class me directly access nahi ho sakte.
+
+            (b) default (no modifier)
+                - Sirf same package ke andar accessible hote hain.
+
+            (c) protected
+                - Same package me accessible + child class ke through bhi accessible (even if child is in different package).
+
+            (d) public
+                - Har jagah accessible (same package + different package).
+
+            Example:
+                class Person {
+                    private String aadharNumber = "1234";  // private
+                    String city = "Delhi";                 // default
+                    protected int age = 25;                // protected
+                    public String name = "Rahul";          // public
+
+                    void showPerson() {
+                        System.out.println("Name: " + name);
+                    }
+                }
+
+                class Student extends Person {
+                    void showStudent() {
+                        // System.out.println(aadharNumber); private not accessible
+                        System.out.println("City: " + city);     // default (same package)
+                        System.out.println("Age: " + age);       // protected
+                        System.out.println("Name: " + name);     // public
+                    }
+                }
+
+                public class AccessDemo {
+                    public static void main(String[] args) {
+                        Student s = new Student();
+                        s.showStudent();
+                    }
+                }
+
+            Real-Life Example:
+                - private → Aadhar number (hidden).
+                - protected → Age (accessible within family or child class).
+                - public → Name (sabko dikh sakta hai).
+
+        -> Constructor Calling Approach in Inheritance
+
+            - Jab ek child class ka object banate hain to base class ka constructor pehle call hota hai, fir child class ka.
+            - Ye ensure karta hai ki base class ke properties pehle initialize ho jayein.
+
+            Rules
+                (1) By default, child class constructor automatically base class ke default constructor ko call karta hai.
+                (2) Agar hume parameterized constructor call karna ho to super() keyword use karte hain.
+                (3) Agar base class me default constructor nahi hai, to child constructor ko explicitly super(parameters) likhna padega.
+
+            Example 1: Default Constructor Call
+                class Parent {
+                    Parent() {
+                        System.out.println("Parent constructor called");
+                    }
+                }
+
+                class Child extends Parent {
+                    Child() {
+                        System.out.println("Child constructor called");
+                    }
+                }
+
+                public class ConstructorDemo {
+                    public static void main(String[] args) {
+                        Child c = new Child();
+                    }
+                }
+
+                Output:
+                    Parent constructor called  
+                    Child constructor called
+
+            Example 2: Parameterized Constructor with super()
+                class Parent {
+                    Parent(String msg) {
+                        System.out.println("Parent constructor: " + msg);
+                    }
+                }
+
+                class Child extends Parent {
+                    Child() {
+                        super("Hello from Child"); // explicitly call parent constructor
+                        System.out.println("Child constructor called");
+                    }
+                }
+
+                public class SuperDemo {
+                    public static void main(String[] args) {
+                        Child c = new Child();
+                    }
+                }
+
+                Output:
+                    Parent constructor: Hello from Child  
+                    Child constructor called
+
+        -> Real-Life Example
+
+            - Parent Class (Vehicle): har vehicle ke basic features (engine, fuel).
+            - Child Class (Car): car ke specific features (AC, music system).
+            - Object create karte hi Vehicle ka constructor pehle chalega, fir Car ka constructor.
+
+        -> Conclusion
+
+            - Base class ke properties aur methods ka accessibility access modifiers pe depend karta hai.
+            - Constructor calling approach me hamesha base class ka constructor pehle call hota hai, jisse base features properly initialize ho jate hain.
+            - super() keyword use karke hum explicitly parent constructor call kar sakte hain.
+
+
+    3.3 Derived Class: Accessibility of Properties & methods, Constructor calling approach
+
+        -> Derived Class (Child Class) kya hota hai?
+
+            - Derived Class (ya Child Class) wo hoti hai jo Base Class (Parent Class) ki properties aur methods ko inherit karti hai.
+            - Child class apne extra features add kar sakti hai ya parent ke methods ko override bhi kar sakti hai.
+
+            Example:
+                Student class ek Person class ko inherit kare. Person ke name aur age Student ko mil jaayenge, aur Student apna rollNumber add kar lega.
+
+        -> Accessibility of Properties & Methods in Derived Class
+
+            Jab ek child class parent ko inherit karti hai, tab access modifiers decide karte hain ki parent ke members usme kitne accessible honge.
+
+            Rules:
+                (1) private – child class ke andar directly accessible nahi. (only through getter/setter).
+                (2) default – same package me child class ke liye accessible.
+                (3) protected – child class me accessible (even if child is in different package).
+                (4) public – har jagah accessible.
+
+            Example: Accessibility in Child Class
+                class Person {
+                    private String aadhar = "1234";   // private
+                    String city = "Delhi";            // default
+                    protected int age = 22;           // protected
+                    public String name = "Rahul";     // public
+                }
+
+                class Student extends Person {
+                    int rollNo = 101;
+
+                    void display() {
+                        // System.out.println(aadhar); private not accessible
+                        System.out.println("City: " + city);   // default (same package)
+                        System.out.println("Age: " + age);     // protected
+                        System.out.println("Name: " + name);   // public
+                        System.out.println("Roll No: " + rollNo);
+                    }
+                }
+
+                public class DerivedAccessDemo {
+                    public static void main(String[] args) {
+                        Student s = new Student();
+                        s.display();
+                    }
+                }
+
+            Real-Life Example:
+                - aadhar (private) → sirf parent class ke andar.
+                - city (default) → same package me accessible.
+                - age (protected) → family (child class) me accessible.
+                - name (public) → sabko visible.
+
+        -> Constructor Calling Approach in Derived Class
+
+            - Jab derived class ka object banta hai to hamesha parent class ka constructor pehle call hota hai, fir derived class ka.
+            - Ye ensure karta hai ki base properties pehle initialize ho.
+
+            Rules:
+                (1) Agar parent class me default constructor hai → wo automatically call ho jaata hai.
+                (2) Agar parent class me parameterized constructor hai → child ko super() keyword use karna padega.
+                (3) Agar super() likha nahi gaya hai → compiler automatically super(); (default parent constructor) add kar deta hai.
+
+            Example 1: Default Constructor Call in Derived Class
+                class Parent {
+                    Parent() {
+                        System.out.println("Parent Constructor");
+                    }
+                }
+
+                class Child extends Parent {
+                    Child() {
+                        System.out.println("Child Constructor");
+                    }
+                }
+
+                public class DerivedConstructorDemo {
+                    public static void main(String[] args) {
+                        Child c = new Child();
+                    }
+                }
+
+                Output:
+                    Parent Constructor  
+                    Child Constructor
+
+            Example 2: Parameterized Constructor with super()
+                class Parent {
+                    Parent(String msg) {
+                        System.out.println("Parent Constructor: " + msg);
+                    }
+                }
+
+                class Child extends Parent {
+                    Child() {
+                        super("Hello from Child"); // call parent constructor
+                        System.out.println("Child Constructor");
+                    }
+                }
+
+                public class SuperConstructorDemo {
+                    public static void main(String[] args) {
+                        Child c = new Child();
+                    }
+                }
+
+                Output:
+                    Parent Constructor: Hello from Child  
+                    Child Constructor
+
+        -> Real-Life Example
+
+            - Parent Class (Account): accountNumber aur balance rakhta hai.
+            - Child Class (SavingAccount): interest rate add karta hai.
+            - Jab SavingAccount object banta hai → Account ka constructor pehle chalega (kyunki account details important hain), fir SavingAccount ka         constructor chalega.
+
+        -> Conclusion
+
+            - Derived class apne parent class ki properties aur methods ko access karti hai, lekin accessibility access modifiers pe depend karti hai.
+            - Constructor calling approach me hamesha parent constructor pehle call hota hai, fir child ka, jisse initialization sahi order me ho.
+            - super() keyword use karke hum explicitly parent constructor ko call kar sakte hain.
