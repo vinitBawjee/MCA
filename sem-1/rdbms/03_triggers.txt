@@ -3,13 +3,349 @@
 
     3.1 Triggers and their usage
 
+        -> Introduction
+
+            - Trigger ek special type ka stored procedure hai jo automatically execute hota hai jab koi specified event table me occur hota hai.
+            - Ye database me automatic action perform karne ke liye use hota hai.
+            - Trigger ka execution user ke call pe nahi, balki event ke hone par automatically hota hai.
+
+        -> Need for Triggers
+
+            (1) Data Integrity Maintain Karna – automatic validation ya rules enforce karna.
+            (2) Auditing – data changes ka log maintain karna (INSERT, UPDATE, DELETE).
+            (3) Automatic Calculation – ek table ke change hone par dusre table me update.
+            (4) Complex Business Rules – multiple tables ke operations automatically manage karna.
+            (5) Reduce Manual Intervention – repetitive operations automatic ho jate hain.
+
+        -> Types of Triggers
+
+            Triggers ke type mainly do cheezon pe depend karte hain:
+            | **Type** | **Execution Time** | **Example**                     |
+            | -------- | ------------------ | ------------------------------- |
+            | BEFORE   | Event se pehle     | Validate data before INSERT     |
+            | AFTER    | Event ke baad      | Log changes after UPDATE/DELETE |
+
+            - Event ke basis pe: INSERT, UPDATE, DELETE triggers hote hain
+
+        -> Syntax (MySQL Example)
+
+            AFTER INSERT Trigger
+                DELIMITER $$
+
+                CREATE TRIGGER after_employee_insert
+                AFTER INSERT ON Employee
+                FOR EACH ROW
+                BEGIN
+                    INSERT INTO Employee_Audit(emp_id, action, action_time)
+                    VALUES(NEW.id, 'INSERT', NOW());
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Jab Employee table me koi new record insert hota hai, ye trigger automatically Employee_Audit table me log insert karega.
+                - NEW.id ka matlab hai naye record ka id.
+                - AFTER INSERT → event ke baad trigger fire hoga.
+
+            BEFORE UPDATE Trigger
+                DELIMITER $$
+
+                CREATE TRIGGER before_salary_update
+                BEFORE UPDATE ON Employee
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.salary < 0 THEN
+                        SET NEW.salary = 0; -- negative salary avoid karne ke liye
+                    END IF;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Update hone se pehle check karte hain ki salary negative na ho.
+                - Agar negative hai to 0 set kar dete hain.
+
+        -> Real-life Examples
+
+            (1) Banking System:
+                Account me withdrawal ke baad automatically minimum balance check aur penalty lagana
+            (2) E-commerce:
+                Order insert hone ke baad inventory automatically update
+            (3) School Database:
+                Student delete hone par attendance records bhi delete kar dena
+            (4) Auditing:
+                Employee table me INSERT/UPDATE/DELETE ke har action ka log maintain karna
+
+        -> Advantages of Triggers
+
+            - Automatic execution → human error kam hota hai
+            - Centralized logic → multiple applications me consistency maintained
+            - Real-time enforcement → rules instantly apply hote hain
+
 
     3.2 Trigger Activation
+
+        -> Introduction
+
+            - Trigger Activation ka matlab hai ki trigger automatically execute hota hai jab koi specific event table me occur hota hai.
+            - Trigger ko manually call nahi karna padta, ye database engine ke dwara automatically fire hota hai.
+            - Activation ka time aur event trigger define karte hain: BEFORE / AFTER aur INSERT / UPDATE / DELETE.
+
+        -> Event-based Activation
+
+            Trigger tab activate hota hai jab specified event hota hai:
+            | **Trigger Type** | **Activation Event**        |
+            | ---------------- | --------------------------- |
+            | BEFORE INSERT    | Record insert hone se pehle |
+            | AFTER INSERT     | Record insert hone ke baad  |
+            | BEFORE UPDATE    | Record update hone se pehle |
+            | AFTER UPDATE     | Record update hone ke baad  |
+            | BEFORE DELETE    | Record delete hone se pehle |
+            | AFTER DELETE     | Record delete hone ke baad  |
+
+            Example:
+                Employee table me new record add karte hi AFTER INSERT trigger fire hoga aur audit table me log add karega.
+
+        -> Row-level vs Statement-level Activation
+
+            (1) Row-level Trigger:
+                - FOR EACH ROW ke saath define hota hai
+                - Table me har affected row ke liye trigger separately activate hota hai
+
+            (2) Statement-level Trigger:
+                - Table ke event ke liye ek baar hi trigger activate hota hai, chahe multiple rows affect ho
+                - MySQL me default mostly row-level triggers use hote hain
+
+        -> Syntax Example – Trigger Activation
+
+            AFTER INSERT Trigger (Row-level)
+                DELIMITER $$
+
+                CREATE TRIGGER after_employee_insert
+                AFTER INSERT ON Employee
+                FOR EACH ROW
+                BEGIN
+                    INSERT INTO Employee_Audit(emp_id, action, action_time)
+                    VALUES(NEW.id, 'INSERT', NOW());
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Jab bhi Employee table me new row insert hoti hai → trigger automatically activate hota hai
+                - Row-level hone ke karan har inserted row ke liye alag log create hota hai
+
+            BEFORE UPDATE Trigger (Row-level)
+                DELIMITER $$
+
+                CREATE TRIGGER before_salary_update
+                BEFORE UPDATE ON Employee
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.salary < 0 THEN
+                        SET NEW.salary = 0; -- prevent negative salary
+                    END IF;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Jab bhi Employee table me koi row update hoti hai → trigger automatically activate hoga
+                - Salary negative hone se pehle check kiya aur correct kiya
+
+        -> Real-life Examples of Trigger Activation
+
+            (1) Banking System:
+                Withdrawal ke baad automatic minimum balance check aur penalty lagana
+            (2) E-commerce:
+                Order insert hone par inventory update automatically
+            (3) School Database:
+                Student delete hone par related attendance records bhi delete
+
+        -> Summary
+
+            - Trigger activation = automatic execution on specific events
+            - Types of activation: BEFORE / AFTER, INSERT / UPDATE / DELETE
+            - Level: Row-level (per row), Statement-level (per statement)
+            - Real-life implementation ensures data integrity, auditing, and automation
 
 
     3.3 BEFORE and AFTER trigger
 
+        -> Introduction
+
+            - Triggers ko BEFORE ya AFTER specify karte hain, jisse database engine decide karta hai kab trigger execute hoga.
+            - BEFORE Trigger: Event ke hone se pehle execute hota hai
+            - AFTER Trigger: Event ke hone ke baad execute hota hai
+
+        -> BEFORE Trigger
+
+            Definition:
+                - BEFORE trigger specified event se pehle fire hota hai
+                - Mainly use hota hai data validation, automatic modification, or constraints enforce karne ke liye
+
+            Syntax Example (BEFORE INSERT):
+                DELIMITER $$
+
+                CREATE TRIGGER before_employee_insert
+                BEFORE INSERT ON Employee
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.salary < 0 THEN
+                        SET NEW.salary = 0; -- negative salary prevent
+                    END IF;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Jab bhi Employee table me insert hota hai, trigger insert se pehle check karta hai ki salary negative na ho.
+                - Agar negative ho to 0 set kar deta hai
+
+            Use Case:
+                - Validate data before insert/update
+                - Prevent invalid data
+
+        -> AFTER Trigger
+
+            Definition:
+                - AFTER trigger specified event ke complete hone ke baad fire hota hai
+                - Mainly use hota hai logging, auditing, cascading updates ke liye
+
+            Syntax Example (AFTER INSERT):
+                DELIMITER $$
+
+                CREATE TRIGGER after_employee_insert
+                AFTER INSERT ON Employee
+                FOR EACH ROW
+                BEGIN
+                    INSERT INTO Employee_Audit(emp_id, action, action_time)
+                    VALUES(NEW.id, 'INSERT', NOW());
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Jab Employ                Audit trail maintain karna
+                Update related tables automaticallyee table me insert complete ho jaye → trigger automatically fire hota hai aur audit table me log insert karta hai
+
+            Use Case:
+                - Audit trail maintain karna
+                - Update related tables automatically
+
+        -> Key Differences
+
+            | **Aspect**           | **BEFORE Trigger**                | **AFTER Trigger**             |
+            | -------------------- | --------------------------------- | ----------------------------- |
+            | Execution Time       | Event se pehle                    | Event ke baad                 |
+            | Purpose              | Data validation, modification     | Logging, auditing, cascading  |
+            | Access to NEW values | Yes, modify NEW row before insert | Yes, but row already inserted |
+
+        -> Real-life Examples
+
+            (1) Banking System:
+                - BEFORE UPDATE → Check withdrawal amount > balance
+                - AFTER UPDATE → Log transaction in audit table
+
+            (2) E-commerce:
+                - BEFORE INSERT → Validate order quantity <= stock
+                - AFTER INSERT → Update inventory table automatically
+
+            (3) School Database:
+                - BEFORE DELETE → Check student fees cleared
+                - AFTER DELETE → Remove related attendance records
+
+        -> Summary
+
+            - BEFORE Trigger: event ke pehle action perform karta hai → validation/constraint enforcement
+            - AFTER Trigger: event ke baad action perform karta hai → logging/auditing/cascading updates
+            - Trigger automatic hota hai aur database integrity maintain karta hai
+
 
     3.4 COMMIT, ROLLBACK, SAVEPOINT
 
+        -> Introduction
+
+            - Transaction ek logical unit hoti hai jo one or more SQL operations ko include karti hai.
+            - Transaction control statements ensure karte hain ki database consistent aur error-free rahe.
+            - Main statements: COMMIT, ROLLBACK, SAVEPOINT
+
+        -> COMMIT
+
+            Definition:
+                - COMMIT ka use transaction ke changes permanently save karne ke liye hota hai.
+                - Agar koi operations successful ho gaye hain, to COMMIT execute karke data ko finalize karte hain.
+
+            Syntax:
+                COMMIT;
+
+            Example:
+                START TRANSACTION;
+
+                INSERT INTO Employee(id, name, salary) VALUES(1, 'Amit', 50000);
+                INSERT INTO Employee(id, name, salary) VALUES(2, 'Neha', 60000);
+
+                COMMIT; -- changes permanently saved
+
+            Real-life Example:
+                Banking system me fund transfer complete hone ke baad COMMIT karna
+
+        -> ROLLBACK
+
+            Definition:
+                - ROLLBACK ka use transaction ke changes ko undo karne ke liye hota hai agar koi error ya problem ho jaye
+                - Data ko previous state me restore karta hai
+
+            Syntax:
+                ROLLBACK;
+
+            Example:
+                START TRANSACTION;
+
+                UPDATE Employee SET salary = 70000 WHERE id = 3;
+                -- agar koi error aaya ya condition fail hua
+                ROLLBACK; -- changes cancel ho gaye
+
+            Real-life Example:
+                Agar bank me transfer failed ho gaya → ROLLBACK se amount restore ho jata hai
+
+        -> SAVEPOINT
+
+            Definition:
+                - SAVEPOINT ek intermediate point create karta hai transaction me
+                - Agar baad me problem ho → SAVEPOINT tak rollback kar sakte hain without undoing full transaction
+
+            Syntax:
+                SAVEPOINT savepoint_name;
+                ROLLBACK TO savepoint_name;
+
+            Example (Hinglish):
+                START TRANSACTION;
+
+                INSERT INTO Employee(id, name) VALUES(3, 'Ravi');
+                SAVEPOINT sp1;
+
+                UPDATE Employee SET salary = 55000 WHERE id = 3;
+                -- Agar salary update me problem
+                ROLLBACK TO sp1; -- sirf salary update undo ho gayi
+                COMMIT; -- baki changes save ho gaye
+
+            Real-life Example:
+                - E-commerce me order processing ke multiple steps me SAVEPOINT use karna → ek step fail ho → baaki transaction safe rahe
+
+        -> Key Points
+
+            | Statement | Action                                | Use Case               |
+            | --------- | ------------------------------------- | ---------------------- |
+            | COMMIT    | Permanent save of changes             | Successful transaction |
+            | ROLLBACK  | Undo all changes in transaction       | Error/Failed operation |
+            | SAVEPOINT | Intermediate savepoint in transaction | Partial rollback       |
+
+        -> Summary
+
+            - Transaction control ensures database integrity
+            - COMMIT → finalize changes
+            - ROLLBACK → undo changes
+            - SAVEPOINT → partial rollback
+            - Real-life systems (Banking, E-commerce, Payroll) me ye statements critical hote hain
 
