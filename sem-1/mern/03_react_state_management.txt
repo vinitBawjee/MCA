@@ -128,12 +128,14 @@
 
         -> useEffect
 
-            - useEffect ek hook hai jo side                        async function fetchStats() {
+            - useEffect ek hook hai jo side                        
+                        async function fetchStats() {
                             const res = await fetch("/api/seller/stats");
                             const data = await res.json();
                             setStats(data);
                         }
-                        fetchStats();-effects handle karta hai, jaise:
+                        fetchStats(); 
+            - effects handle karta hai, jaise:
                 - API calls
                 - DOM updates
                 - vent listeners

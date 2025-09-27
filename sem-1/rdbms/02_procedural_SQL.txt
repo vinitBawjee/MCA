@@ -3,16 +3,420 @@
 
     2.1 Compound statements and labels
 
+        -> Introduction
+
+            Procedural SQL (jaise PL/SQL in Oracle ya MySQL Stored Procedures) me hum sirf simple SELECT/INSERT/UPDATE queries nahi likhte, balki ek procedure/program likhte jisme:
+                - Control structures hote hain (IF, LOOP, WHILE)
+                - Compound statements hote hain (multiple SQL + procedural code ek block me)
+                - Labels use hote hain (particular block ya loop ko identify karne ke liye)
+
+        -> Compound Statements
+
+            Definition:
+                Compound statement ek block of code hota hai jo multiple SQL aur procedural statements ko ek saath group karta hai.
+
+            Compound block ke main parts:
+                (1) BEGIN … END → jisme statements likhe jate hain
+                (2) Control flow (IF, LOOP, CURSOR, etc.)
+                (3) Nested blocks allowed hote hain
+
+            Syntax (MySQL Stored Procedure style):
+                DELIMITER $$
+
+                CREATE PROCEDURE sample_proc()
+                BEGIN
+                DECLARE total INT;
+                DECLARE price INT DEFAULT 100;
+                DECLARE quantity INT DEFAULT 5;
+
+                -- Compound block starts
+                SET total = price * quantity;
+
+                IF total > 400 THEN
+                    SELECT 'Big Order' AS Status;
+                ELSE
+                    SELECT 'Small Order' AS Status;
+                END IF;
+                END $$
+
+                DELIMITER ;
+
+            Explanation :
+                - BEGIN … END ke beech multiple statements group hue hain.
+                - Is block me humne variables declare kiye, calculation kiya aur conditional check kiya.
+
+        -> Labels
+
+            Definition:
+                Label ek identifier hota hai jo compound block ya loop ko naam deta hai.
+                Isse hum specific loop/block ko EXIT ya ITERATE kar sakte hain.
+
+            - Labels ka use mainly nested loops ya nested compound statements me hota hai.
+
+            Syntax (MySQL Loop with Label):
+                DELIMITER $$
+
+                CREATE PROCEDURE label_demo()
+                BEGIN
+                DECLARE counter INT DEFAULT 1;
+
+                outer_loop: LOOP
+                    IF counter > 5 THEN
+                        LEAVE outer_loop;  -- Exit using label
+                    END IF;
+
+                    SELECT CONCAT('Counter = ', counter) AS Output;
+                    SET counter = counter + 1;
+                END LOOP outer_loop;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Humne outer_loop label diya hai loop ko.
+                - Jab condition counter > 5 hui to LEAVE outer_loop likh kar loop ko exit kar diya.
+
+        -> Real-life Example (Banking System)
+
+            Maan lo ek Bank Database hai jisme hume ek customer ke multiple transactions process karne hain:
+                - Compound statement se multiple checks karenge (balance check, withdrawal, charges)
+                - Agar limit exceed ho gayi to label ke through loop break kar denge
+
 
     2.2 Overview of Control and Iterative statements: IF, CASE, LEAVE, WHILE, LOOP
+
+        -> Introduction
+
+            Procedural SQL me Control statements aur Iterative statements use hote hain program ka flow control karne ke liye.
+                - Control Statements → conditions check karne ke liye (IF, CASE, LEAVE)
+                - Iterative Statements → repeat/loop karne ke liye (WHILE, LOOP, REPEAT)
+
+            Ye database ke andar hi logical programming allow karte hain, jaise ki ek stored procedure ya trigger me.
+
+        -> IF Statement
+
+            Definition: 
+                IF ek conditional control structure hai jo condition check karta hai aur result ke basis pe alag-alag code execute karta hai.
+
+            Syntax:
+                IF condition THEN
+                    statements;
+                ELSE
+                    statements;
+                END IF;
+
+            Example:
+                IF balance < 1000 THEN
+                    SET status = 'Low Balance';
+                ELSE
+                    SET status = 'Sufficient Balance';
+                END IF;
+
+            Yahaan IF ke through humne account ka balance check kiya.
+
+        -> CASE Statement
+
+            Definition: 
+                CASE multiple conditions check karta hai, jaise switch-case in programming.
+
+            Syntax:
+                CASE
+                    WHEN condition1 THEN statements;
+                    WHEN condition2 THEN statements;
+                    ELSE statements;
+                END CASE;
+
+            Example:
+                CASE grade
+                    WHEN 'A' THEN SET remark = 'Excellent';
+                    WHEN 'B' THEN SET remark = 'Good';
+                    ELSE SET remark = 'Needs Improvement';
+                END CASE;
+
+        -> LEAVE Statement
+
+            Definition: 
+                LEAVE ka use ek labeled block ya loop ko exit karne ke liye hota hai.
+
+            Syntax:
+                label: LOOP
+                    IF condition THEN
+                        LEAVE label;
+                    END IF;
+                    statements;
+                END LOOP label;
+
+            Example:
+                outer_loop: LOOP
+                    IF counter > 10 THEN
+                        LEAVE outer_loop; -- Exit loop
+                    END IF;
+                    SET counter = counter + 1;
+                END LOOP outer_loop;
+
+        -> WHILE Loop
+
+            Definition: 
+                WHILE ek iterative statement hai jo condition true hone tak repeat hota hai.
+
+            Syntax:
+                WHILE condition DO
+                    statements;
+                END WHILE;
+
+            Example:
+                SET counter = 1;
+                WHILE counter <= 5 DO
+                    SELECT CONCAT('Counter = ', counter);
+                    SET counter = counter + 1;
+                END WHILE;
+
+        -> LOOP Statement
+
+            Definition: 
+                LOOP ek iterative construct hai jo repeatedly execute hota hai jab tak explicitly LEAVE nahi hota.
+
+            Syntax:
+                label: LOOP
+                    statements;
+                    IF condition THEN
+                        LEAVE label;
+                    END IF;
+                END LOOP label;
+
+            Example (Banking System):
+                withdraw_loop: LOOP
+                    IF amount <= 0 THEN
+                        LEAVE withdraw_loop;
+                    END IF;
+                    SET amount = amount - 100;
+                END LOOP withdraw_loop;
+
+        -> Real-life Example (Shopping Cart)
+
+            Maan lo ek Shopping Cart System hai:
+                - IF → check karo cart empty hai ya nahi
+                - CASE → product type ke hisaab se discount apply karo
+                - WHILE → jab tak cart me items hai, total calculate karo
+                - LOOP + LEAVE → agar stock out ho gaya to loop exit kar do
 
 
     2.3 Cursors: OPEN, CLOSE and FETCH
 
+        -> Introduction
+
+            - Cursor ek pointer hota hai jo SQL query ke result set pe row-by-row traversal allow karta hai.
+            - Normally SQL ek saath set of rows return karta hai, but jab hume row-by-row process karna ho (jaise loop me), tab cursor use karte hain.
+
+            Steps of Cursor Handling:
+                (1) Declare Cursor
+                (2) Open Cursor
+                (3) Fetch rows one by one
+                (4) Close Cursor
+
+        -> DECLARE CURSOR
+
+            Sabse pehle cursor declare karna padta hai aur usko ek SELECT query ke saath associate karte hain.
+            Syntax:
+                DECLARE cursor_name CURSOR FOR
+                    SELECT column1, column2 FROM table_name;
+
+        -> OPEN Cursor
+
+            Cursor ko open karna zaroori hai taaki SQL query execute ho aur result set memory me aa jaye.
+            Syntax:
+                OPEN cursor_name;
+
+        -> FETCH Cursor
+
+            FETCH statement use hota hai next row ko result set se retrieve karne ke liye.
+            Har FETCH ek ek row lata hai aur usko variables me store karta hai.
+            
+            Syntax:
+                FETCH cursor_name INTO var1, var2, ...;
+
+            Example:
+                DECLARE v_id INT;
+                DECLARE v_name VARCHAR(50);
+
+                DECLARE student_cursor CURSOR FOR
+                SELECT id, name FROM Student;
+
+                OPEN student_cursor;
+
+                FETCH student_cursor INTO v_id, v_name;
+                -- ab v_id aur v_name me pehli row aa gayi
+
+        -> CLOSE Cursor
+
+            Jab cursor ka kaam ho jaye to usse CLOSE karna zaroori hai.
+            Isse memory free ho jaati hai.
+
+            Syntax:
+                CLOSE cursor_name;
+
+        -> Complete Example (Real-life: Employee List)
+
+            Maan lo ek Employee table hai aur hume ek stored procedure likhna hai jo row-by-row employee ka naam print kare:
+                DELIMITER $$
+
+                CREATE PROCEDURE emp_cursor_demo()
+                BEGIN
+                    DECLARE v_id INT;
+                    DECLARE v_name VARCHAR(50);
+                    DECLARE done INT DEFAULT 0;
+
+                    -- Cursor declaration
+                    DECLARE emp_cursor CURSOR FOR
+                        SELECT id, name FROM Employee;
+
+                    -- Handler for end of rows
+                    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+                    -- Open cursor
+                    OPEN emp_cursor;
+
+                    read_loop: LOOP
+                        FETCH emp_cursor INTO v_id, v_name;
+                        IF done = 1 THEN
+                            LEAVE read_loop;
+                        END IF;
+                        SELECT CONCAT('Employee: ', v_id, ' - ', v_name) AS Output;
+                    END LOOP;
+
+                    -- Close cursor
+                    CLOSE emp_cursor;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - Cursor emp_cursor Employee table pe bana hai.
+                - OPEN ke baad rows memory me aa gayi.
+                - FETCH ek-ek row v_id, v_name me la raha hai.
+                - Jab rows khatam ho gayi to done=1 set ho gaya aur loop se LEAVE.
+                - End me cursor CLOSE.
+
+        -> Real-life Use Cases
+
+            (1) Bank Transactions → ek-ek transaction ko row-by-row process karna
+            (2) Payroll System → employee salary calculate karna per employee
+            (3) Data Migration → ek table se dusre table me sequential insert/update karna
+
 
     2.4 User Defined Function: Need, RETURN statement
+
+        -> Introduction
+
+            - User Defined Function (UDF) ek aisa stored program hai jo user khud bana sakta hai specific calculations ya operations ke liye.
+            - UDF ek value return karta hai aur SQL queries ke andar call kiya ja sakta hai.
+            - UDF ko normal SQL functions (SUM, AVG, COUNT) ki tarah use kar sakte ho, bas difference ye hai ki UDF user ke custom logic follow karta hai.
+
+        -> Need for User Defined Function
+
+            UDF ki zarurat tab hoti hai jab:
+                (1) Hume complex logic bar-bar repeat karna ho.
+                (2) Ek single value calculation chahiye ho jo query ke andar hi use ho sake.
+                (3) Database ke andar hi business rules implement karne ho.
+
+            Real-life Example:
+                - Agar hume salary table me har employee ke annual salary calculate karna ho → UDF bana sakte hain jo monthly_salary * 12 return kare.
+                - Agar hume customer ka age calculate karna ho dob (date of birth) se → ek UDF bana lo.
+
+        -> RETURN Statement in UDF
+
+            - Har UDF ek RETURN statement ke through ek single value return karta hai.
+            - RETURN ka data type function ke definition me declare hota hai.
+            - Ek UDF me sirf ek hi value return hoti hai.
+
+            Syntax (MySQL):
+                DELIMITER $$
+
+                CREATE FUNCTION get_annual_salary(monthly_salary DECIMAL(10,2))
+                RETURNS DECIMAL(10,2)
+                DETERMINISTIC
+                BEGIN
+                    DECLARE annual_salary DECIMAL(10,2);
+                    SET annual_salary = monthly_salary * 12;
+                    RETURN annual_salary;
+                END $$
+
+                DELIMITER ;
+
+            Explanation:
+                - get_annual_salary() ek UDF hai jo monthly salary input leta hai.
+                - Function ke andar calculation hoti hai.
+                - RETURN statement annual salary return karta hai.
+
+        -> Calling UDF
+
+            UDF ko normal SQL query ke andar call kar sakte ho.
+
+            Example:
+                SELECT name, get_annual_salary(salary) AS AnnualSalary
+                FROM Employee;
+
+        -> Real-life Examples of UDF
+
+            (1) Banking System – interest calculate karna
+            (2) E-commerce – discount price nikalna
+            (3) School Database – student age calculate karna from DOB
+            (4) Payroll – annual salary ya tax calculation
 
 
     2.5 Stored Procedure: Need and usage
 
+        -> Introduction
 
+            - Stored Procedure ek precompiled SQL code block hota hai jo database me store hota hai aur baar-baar call kiya ja sakta hai.
+            - Stored Procedures parameters le sakte hain aur complex operations perform kar sakte hain.
+            - Ye SQL queries aur procedural logic ko combine karke ek modular unit banata hai.
+
+        -> Need for Stored Procedure
+
+            (1) Code Reusability – ek baar procedure create karke baar-baar call kar sakte hain.
+            (2) Performance Improvement – precompiled hone ki wajah se execution fast hota hai.
+            (3) Maintainability – business logic database me centralize ho jata hai.
+            (4) Security – direct table access avoid karke controlled operations allow hota hai.
+            (5) Complex Logic Execution – IF, LOOP, Cursor, Error Handling jaise operations ek saath run karne me easy.
+
+        -> Usage of Stored Procedure
+
+            - Insert, Update, Delete operations ke liye
+            - Row-by-row calculations (using cursors)
+            - Business rules enforcement (like discount calculation, salary processing)
+            - Reports generation
+            - Multi-step operations in one call
+
+        -> Syntax of Stored Procedure (MySQL)
+
+            DELIMITER $$
+
+            CREATE PROCEDURE add_employee(
+                IN emp_name VARCHAR(50),
+                IN emp_salary DECIMAL(10,2)
+            )
+            BEGIN
+                INSERT INTO Employee(name, salary) VALUES(emp_name, emp_salary);
+            END $$
+
+            DELIMITER ;
+
+            Explanation:
+                - IN parameter se data procedure ke andar pass hota hai.
+                - Procedure me SQL query run hoti hai (INSERT).
+                - Procedure create hone ke baad baar-baar call kar sakte ho without rewriting queries.
+
+        -> Calling Stored Procedure
+
+            CALL add_employee('Amit', 50000);
+
+            - Ye Employee table me ek new record add kar dega.
+            - Multiple calls ke liye same procedure use kiya ja sakta hai.
+
+        -> Real-life Examples
+
+            (1) Banking System: Fund transfer procedure – ek transaction me multiple tables update
+            (2) E-commerce: Order processing – inventory update + order record + payment status update
+            (3) Payroll: Monthly salary calculation for all employees
+            (4) School Database: Student enrollment – student table + fee table update
